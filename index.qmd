@@ -8,6 +8,7 @@ format:
   revealjs: 
     theme: [simple, theme.scss]
     slide-number: c
+    smaller: true
     multiplex: true
 execute: 
   echo: true
@@ -22,16 +23,27 @@ execute:
 ### Bayesian Estimation
 
 
+
+
 ## Vector Autoregressions {background-color="#FF00FF"}
 
 ## Vector Autoregressions
 
-<!-- ::: incremental -->
 - go-to models for forecasting
+
+::: incremental
 - simple: *linear and Gaussian*
 - extendible: *featuring many variations in specification*
-- 
-<!-- ::: -->
+  - non-normality
+  - heteroskedasticity
+  - time-varying parameters
+  - Bayesian
+- interpretable
+  - Granger causality
+  - spillovers
+  - networks
+  - structural
+:::
 
 ::: footer
 [Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
@@ -39,11 +51,18 @@ execute:
 
 
 ## VAR(p) model
+
+### Model equations.
+
 \begin{align*}
 y_t &= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \epsilon_t\\
 \epsilon_t|Y_{t-1} &\sim iidN\left(\mathbf{0}_N,\mathbf\Sigma\right)
 \end{align*}
-for $t=1,\dots,T$, where :
+for $t=1,\dots,T$
+
+::: {.fragment}
+
+### Notation.
 
 - $y_t$ is an $N\times 1$ vector of observations at time $t$
 - $\boldsymbol\mu_0$ - $N\times 1$ vector of constant terms
@@ -51,6 +70,7 @@ for $t=1,\dots,T$, where :
 - $\epsilon_t$ - $N\times 1$ vector of error terms - a multivariate white noise process
 - $Y_{t-1}$ - information set collecting observations on} $y$ up to time $t-1$
 - $\mathbf\Sigma$ - $N\times N$ covariance matrix of the error term
+:::
 
 ::: footer
 [Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
@@ -81,35 +101,6 @@ Perform the matrix multiplications and write out the equations for $y_{1.t}$ and
 :::
 
 
-## Vector Autoregressions
-
-### VAR(p) model.
-
-
-\begin{align*}
-y_t &= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \epsilon_t\\
-\epsilon_t|Y_{t-1} &\sim iidN_N\left(\mathbf{0}_N,\mathbf\Sigma\right)
-\end{align*}
-
-### Matrix notation.
-
-
-\begin{align*} 
-Y &= X\mathbf{A} + E\\
-E|X &\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\right)
-\end{align*}
-
-$$ 
-\underset{(K\times N)}{\mathbf{A}}=\begin{bmatrix} \boldsymbol\mu_0'\\ \mathbf{A}_1'\\ \vdots \\ \mathbf{A}_p' \end{bmatrix} \quad
-\underset{(T\times N)}{Y}= \begin{bmatrix}y_1' \\ y_2'\\ \vdots \\ y_T'\end{bmatrix} \quad
-\underset{(K\times1)}{x_t}=\begin{bmatrix} 1\\ y_{t-1}\\ \vdots \\ y_{t-p} \end{bmatrix}\quad
-\underset{(T\times K)}{X}= \begin{bmatrix}x_1' \\ x_2' \\ \vdots \\ x_{T}'\end{bmatrix} \quad
-\underset{(T\times N)}{E}= \begin{bmatrix}\epsilon_1' \\ \epsilon_2' \\ \vdots \\ \epsilon_{T}'\end{bmatrix}
-$$ where $K=1+pN$
-
-::: footer
-[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
-:::
 
 
 ## Three useful distributions {background-color="#FF00FF"}
@@ -152,9 +143,6 @@ An $N\times N$ square symmetric and positive definite matrix $\mathbf\Sigma$ fol
 IW_{N}\left( S, \nu \right) \propto \text{det}(\mathbf\Sigma)^{-\frac{\nu+N+1}{2}}\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf\Sigma^{-1} S \right] \right\}
 \end{align*}
 
-### Moments.
-
-$$ \mathbb{E}[\mathbf\Sigma] = \frac{1}{\nu-N-1} S \qquad\text{ for} \nu>N+1$$
 
 ::: footer
 [Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
@@ -174,7 +162,6 @@ $$
 
 ### Density function.
 
-
 \begin{align*}
 NIW_{K\times N}\left( M,P,S,\nu\right) \propto &\text{det}(\mathbf{\Sigma})^{-(\nu+N+K+1)/2}\\ 
 &\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1} (\mathbf{A}-M)'P^{-1}(\mathbf{A}-M) \right] \right\}\\
@@ -186,7 +173,112 @@ NIW_{K\times N}\left( M,P,S,\nu\right) \propto &\text{det}(\mathbf{\Sigma})^{-(\
 :::
 
 
+
+
+## Example: error term distribution
+
+The model assumptions state:
+\begin{align*}
+\epsilon_t|Y_{t-1} &\sim iidN_N\left(\mathbf{0}_N,\mathbf\Sigma\right)
+\end{align*}
+
+Collect error term vectors in a $T\times N$ matrix:
+$$\underset{(T\times N)}{E}= \begin{bmatrix}\epsilon_1 & \epsilon_2 & \dots & \epsilon_{T}\end{bmatrix}'$$
+
+Error term matrix is matrix-variate distributed:
+\begin{align*} 
+E|X &\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\right)
+\end{align*}
+
+::: {.fragment .fade-in}
+
+### Tasks: what is
+
+- the covariance of $\text{vec}(E)$
+- the distribution of the first equation error terms $\begin{bmatrix}\epsilon_{1.1} &\dots&\epsilon_{1.T}\end{bmatrix}'$
+
+:::
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
+
+
+
+## Example: a univariate *inverse Wishart* distribution
+
+The *inverse Wishart* density function is proportional to:
+\begin{align*}
+\text{det}(\mathbf\Sigma)^{-\frac{\nu+N+1}{2}}\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf\Sigma^{-1} S \right] \right\}
+\end{align*}
+
+Consider a case where:
+
+- $N=1$
+- the matrix $\mathbf\Sigma$ is replaced by a scalar $\boldsymbol\sigma^2$
+
+::: {.fragment .fade-in}
+
+### Task:
+
+- write out the kernel of the density function for $\boldsymbol\sigma^2$
+- the kernel of what density it represents?
+
+:::
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
+
+
+
+
+
+
 ## Bayesian Estimation {background-color="#FF00FF"}
+
+
+
+## The model in matrix notation
+
+### VAR(p) model.
+
+\begin{align*}
+y_t &= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \epsilon_t\\
+\epsilon_t|Y_{t-1} &\sim iidN_N\left(\mathbf{0}_N,\mathbf\Sigma\right)
+\end{align*}
+
+### Matrix notation.
+
+\begin{align*} 
+Y &= X\mathbf{A} + E\\
+E|X &\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\right)
+\end{align*}
+
+::: {.fragment .fade-out}
+
+$$ 
+\underset{(K\times N)}{\mathbf{A}}=\begin{bmatrix} \boldsymbol\mu_0'\\ \mathbf{A}_1'\\ \vdots \\ \mathbf{A}_p' \end{bmatrix} \quad
+\underset{(T\times N)}{Y}= \begin{bmatrix}y_1' \\ y_2'\\ \vdots \\ y_T'\end{bmatrix} \quad
+\underset{(K\times1)}{x_t}=\begin{bmatrix} 1\\ y_{t-1}\\ \vdots \\ y_{t-p} \end{bmatrix}\quad
+\underset{(T\times K)}{X}= \begin{bmatrix}x_1' \\ x_2' \\ \vdots \\ x_{T}'\end{bmatrix} \quad
+\underset{(T\times N)}{E}= \begin{bmatrix}\epsilon_1' \\ \epsilon_2' \\ \vdots \\ \epsilon_{T}'\end{bmatrix}
+$$ where $K=1+pN$
+
+:::
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
+
+
+
+
+
+
 
 ## Likelihood Function as predictive density
 
@@ -222,11 +314,8 @@ Y|X,\mathbf{A}, \mathbf{\Sigma} &\sim MN_{T\times N}\left(X\mathbf{A},\mathbf{\S
 ### Likelihood function.
 
 \begin{align*}
-L\left(\mathbf{A},\mathbf{\Sigma}|Y,X\right)&\propto\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(Y-X\mathbf{A})'(Y-X\mathbf{A})\right]\right\}\\
-&=\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\\
-&\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(\mathbf{A}-\widehat{A})'X'X(\mathbf{A}-\widehat{A}) \right] \right\}\\
-&\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(Y-X\widehat{A})'(Y-X\widehat{A}) \right] \right\}
-\end{align*} where $\widehat{A}=(X'X)^{-1}X'Y$
+L\left(\mathbf{A},\mathbf{\Sigma}|Y,X\right)&\propto\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(Y-X\mathbf{A})'(Y-X\mathbf{A})\right]\right\}
+\end{align*}
 
 ::: footer
 [Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
@@ -235,8 +324,20 @@ L\left(\mathbf{A},\mathbf{\Sigma}|Y,X\right)&\propto\text{det}(\mathbf{\Sigma})^
 
 ## Likelihood function as NIW.
 
-The likelihood function can be presented as a *normal-inverse Wishart* distribution for $(\mathbf{A},\mathbf{\Sigma})$
+Define the MLE: $\widehat{A}=(X'X)^{-1}X'Y$
 
+Perform simple transformation of the likelihood
+
+\begin{align*}
+L\left(\mathbf{A},\mathbf{\Sigma}|Y,X\right)&\propto\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(Y-X\mathbf{A})'(Y-X\mathbf{A})\right]\right\}\\
+&=\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\\
+&\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(\mathbf{A}-\widehat{A})'X'X(\mathbf{A}-\widehat{A}) \right] \right\}\\
+&\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(Y-X\widehat{A})'(Y-X\widehat{A}) \right] \right\}
+\end{align*}
+
+
+
+Under the likelihood, $(\mathbf{A},\mathbf{\Sigma})$ are *normal-inverse Wishart* distributed:
 
 \begin{align*}
 L\left( \mathbf{A},\mathbf{\Sigma}|Y,X \right) &= NIW_{K\times N}\left(\widehat{A},(X'X)^{-1},(Y-X\widehat{A})'(Y-X\widehat{A}), T-N-K-1 \right)
@@ -275,7 +376,6 @@ p\left( \mathbf{A},\mathbf{\Sigma} \right)
 
 ### Bayes Rule.
 
-
 \begin{align*} 
 p\left( \mathbf{A}, \mathbf{\Sigma}|Y,X \right) &\propto L(\mathbf{A},\mathbf{\Sigma}|Y,X)p\left( \mathbf{A}, \mathbf{\Sigma} \right)\\
 &= L(\mathbf{A},\mathbf{\Sigma}|Y,X)p\left( \mathbf{A}| \mathbf{\Sigma} \right)p\left( \mathbf{\Sigma} \right)
@@ -283,15 +383,11 @@ p\left( \mathbf{A}, \mathbf{\Sigma}|Y,X \right) &\propto L(\mathbf{A},\mathbf{\S
 
 ### Kernel.
 
-
 \begin{align*} 
 p\left( \mathbf{A},\mathbf{\Sigma} |Y,X\right) 
-&\propto  \text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\\
-&\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\widehat{A})'X'X(\mathbf{A}-\widehat{A}) \right] \right\}\\
-&\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(Y-X\widehat{A})'(Y-X\widehat{A}) \right] \right\}\\
-& \qquad\times\text{det}(\mathbf{\Sigma})^{-\frac{N+K+\underline{\nu}+1}{2}}\\
-&\qquad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\underline{A})'\underline{V}^{-1}(\mathbf{A}-\underline{A}) \right] \right\}\\
-&\qquad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}\underline{S} \right] \right\},
+&\propto  \text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(Y-X\mathbf{A})'(Y-X\mathbf{A})\right]\right\}\\
+& \quad\times\text{det}(\mathbf{\Sigma})^{-\frac{N+K+\underline{\nu}+1}{2}}\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}\underline{S} \right] \right\}\\
+&\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\underline{A})'\underline{V}^{-1}(\mathbf{A}-\underline{A}) \right] \right\}
 \end{align*}
 
 ::: footer
