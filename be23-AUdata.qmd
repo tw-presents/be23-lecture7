@@ -86,7 +86,7 @@ run   = bvar(
   n_thin = 1,
   priors = priors, 
   mh = mh, 
-  verbose = TRUE # with progress bar
+  verbose = FALSE # without progress bar
 )
 ```
 
