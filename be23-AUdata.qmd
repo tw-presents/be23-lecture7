@@ -1,0 +1,125 @@
+---
+title: "Australian Data Forecasting with Package BVAR"
+author: 
+  - name: "Type your name"
+format:
+  html:
+    theme: cosmo
+    toc: true
+
+---
+
+> **Task:** Adjust this **Quarto** template to perform your Bayesian VAR model estimation and forecasting. Search for the variables of interest using function `readrba::browse_rba_series()`, download the chosen 4 variables using function `readrba::read_rba()`, and create a data matrix. Subsequently employ the model estimation and forecasting workflow using package **BVAR** and report the basic outputs of your analysis.
+
+# Download the data
+
+```{r interest data}
+#| echo: true
+#| message: false
+#| warning: false
+
+# download daily interest rates
+icr_dwnld   = readrba::read_rba(series_id = "FIRMMCRTD")   # Cash Rate Target
+icr_tmp     = xts::xts(icr_dwnld$value, icr_dwnld$date)
+
+by1m_dwnld = readrba::read_rba(series_id = "FIRMMBAB30D")
+by1m_tmp   = xts::xts(by1m_dwnld$value, by1m_dwnld$date)
+
+short       = na.omit(merge(icr_tmp, by1m_tmp))
+forecast_day          = "/2023-09-06"
+
+# daily data
+variables             = short
+colnames(variables)   = c("cash rate", "1m")
+variables             = variables[forecast_day]
+
+# monthly data
+monthly               = xts::to.monthly(variables, OHLC = FALSE)
+plot(monthly)
+```
+
+# Prior Setup
+
+```{r priors}
+set.seed(42)
+library(BVAR)
+
+# priors
+mn      = bv_minnesota(
+  lambda = bv_lambda(mode = 0.2, sd = 0.4, min = 0.0001, max = 5),
+  alpha = bv_alpha(mode = 2), 
+  psi <- bv_psi(scale = 0.004, shape = 0.004, mode = "auto", min = "auto", max = "auto"),
+  var = 1e07
+)
+
+soc     = bv_soc(mode = 1, sd = 1, min = 1e-04, max = 50)
+sur     = bv_sur(mode = 1, sd = 1, min = 1e-04, max = 50)
+
+priors  = bv_priors(hyper = "auto", mn = mn, soc = soc, sur = sur)
+
+# MH setup
+mh      = bv_metropolis(
+  scale_hess = c(0.05, 0.0001, 0.0001),
+  adjust_acc = TRUE, 
+  acc_lower = 0.25, 
+  acc_upper = 0.45
+)
+```
+
+# Estimation
+
+## Estimate the model
+
+```{r estimation}
+#| echo: true
+#| message: false
+#| warning: false
+#| error: false
+
+# estimation
+p     = 1
+run   = bvar(
+  monthly, 
+  lags = p, 
+  n_draw = 3e4,
+  n_burn = 1e4,
+  n_thin = 1,
+  priors = priors, 
+  mh = mh, 
+  verbose = TRUE # with progress bar
+)
+```
+
+## Report MCMC convergence
+
+```{r mcmc}
+plot.ts(run$hyper, main = "", col = "#FF00FF", xlab = "s")
+```
+
+## Report the Posterior Moments
+
+```{r means}
+mean_A  = t(apply(run$beta, 2:3, mean))
+rownames(mean_A) = colnames(monthly)
+knitr::kable(mean_A, caption = "Posterior estimates for autoregressive parameters", digits = 3)
+```
+
+# Forecasting
+
+```{r forecasting}
+# forecasting 
+predict(run) <- predict(
+  run, 
+  horizon = 20, 
+  conf_bands = seq(from = 0.05, to = 0.4, by = 0.01)
+)
+plot(
+  predict(run), 
+  area = TRUE, 
+  t_back = 32
+)
+```
+
+# Conclusion!
+
+Thank you!
