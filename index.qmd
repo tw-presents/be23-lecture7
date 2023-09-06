@@ -9,6 +9,7 @@ format:
   revealjs: 
     theme: [simple, theme.scss]
     slide-number: c
+    transition: concave
     smaller: true
     multiplex: true
 execute: 
@@ -16,6 +17,8 @@ execute:
 ---
 
 ##  {background-color="#FF00FF"}
+
+$$ $$
 
 ### Vector Autoregressions
 
@@ -29,7 +32,7 @@ execute:
 
 ### Bayesian Forecasting using VARs
 
-
+### US Data Analysis Using R Package BVAR
 
 
 
@@ -577,6 +580,41 @@ $$
 [Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
 :::
 
+
+
+## Minnesota and Dummy Observations Prior
+
+### Task.
+
+Suppose that:
+
+- $\bar{Y}_0 = \begin{bmatrix}1&2\end{bmatrix}'$
+- $\mu = 0.5$
+- $\delta = 3$
+- $p = 1$
+
+Write out the matrices $Y^*$ and $X^*$ of dimensions $2\times 3$ and $3\times 3$ respectively.
+
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Bayesian Estimation for Hierarchical Prior {background-color="#FF00FF"}
 
 ## Bayesian Estimation for Hierarchical Prior
@@ -785,6 +823,279 @@ N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T}^{(s)} + \dots + \
 $$
 
 and obtain $\left\{y_{T+2}^{(s)},y_{T+1}^{(s)}\right\}_{s=1}^{S}$
+
+
+
+
+
+
+
+
+## US Data Analysis Using R Package BVAR {background-color="#FF00FF"}
+
+## Data preparation
+
+```{r}
+#| label: us-data
+#| warning: false
+#| fig-align: "center"
+#| fig-height: 11
+#| output-location: column
+
+set.seed(42)
+library(BVAR)
+
+# data
+x = fred_qd[, c("GDPC1", 
+                "GDPCTPI", 
+                "FEDFUNDS")]
+x = fred_transform(
+  x, 
+  codes = c(4, 4, 1)
+)
+
+plot.ts(
+  x, 
+  main = "",
+  col = "#FF00FF",
+  lwd = 4,
+  cex.axis = 2,
+  cex.lab = 2
+)
+```
+
+
+
+
+## Prior setup
+
+```{r}
+#| label: priors
+#| warning: false
+
+# priors
+mn      = bv_minnesota(
+  lambda = bv_lambda(mode = 0.2, sd = 0.4, min = 0.0001, max = 5),
+  alpha = bv_alpha(mode = 2), 
+  psi <- bv_psi(scale = 0.004, shape = 0.004, mode = "auto", min = "auto", max = "auto"),
+  var = 1e07
+)
+
+soc     = bv_soc(mode = 1, sd = 1, min = 1e-04, max = 50)
+sur     = bv_sur(mode = 1, sd = 1, min = 1e-04, max = 50)
+
+priors  = bv_priors(hyper = "auto", mn = mn, soc = soc, sur = sur)
+
+# MH setup
+mh      = bv_metropolis(
+  scale_hess = c(0.05, 0.0001, 0.0001),
+  adjust_acc = TRUE, 
+  acc_lower = 0.25, 
+  acc_upper = 0.45
+)
+```
+
+
+## Estimation
+
+```{r}
+#| label: estimation
+
+# estimation
+p     = 5
+run   = bvar(
+  x, 
+  lags = 5, 
+  n_draw = 3e4,
+  n_burn = 1e4,
+  n_thin = 1,
+  priors = priors, 
+  mh = mh, 
+  verbose = TRUE # with progress bar
+)
+
+```
+
+
+
+## Forecasting
+
+```{r}
+#| label: forecasting
+#| warning: false
+#| fig-align: "center"
+#| out.width: "100%"
+#| output-location: slide
+
+# forecasting 
+predict(run) <- predict(
+  run, 
+  horizon = 20, 
+  conf_bands = seq(from = 0.05, to = 0.4, by = 0.01)
+)
+plot(
+  predict(run), 
+  area = TRUE, 
+  t_back = 32,
+  vars = c("GDPC1")
+)
+```
+
+
+
+## Forecasting
+
+```{r}
+#| label: forecasting-gdpdef
+#| echo: false
+#| warning: false
+#| fig-align: "center"
+#| out.width: "100%"
+#| output-location: slide
+
+plot(
+  predict(run), 
+  area = TRUE, 
+  t_back = 32,
+  vars = c("GDPCTPI")
+)
+```
+
+
+## Forecasting
+
+```{r}
+#| label: forecasting-ffr
+#| echo: false
+#| warning: false
+#| fig-align: "center"
+#| out.width: "100%"
+#| output-location: slide
+
+plot(
+  predict(run), 
+  area = TRUE, 
+  t_back = 32,
+  vars = c("FEDFUNDS")
+)
+```
+
+
+
+## Forecasting
+
+```{r}
+#| label: 3D-gdp
+#| warning: false
+#| fig-align: "center"
+#| out.width: "100%"
+#| output-location: slide
+
+Y.h   = aperm(run$fcast$fcast, c(2,3,1))
+h     = dim(Y.h)[1]
+
+limits.1    = range(Y.h[,1,])
+point.f     = apply(Y.h[,1,],1,mean)
+interval.f  = apply(Y.h[,1,],1,HDInterval::hdi,credMass=0.90)
+
+x           = seq(from=limits.1[1], to=limits.1[2], length.out=100)
+z           = matrix(NA,h,99)
+for (i in 1:h){
+  z[i,]     = hist(Y.h[i,1,], breaks=x, plot=FALSE)$density
+}
+x           = hist(Y.h[i,1,], breaks=x, plot=FALSE)$mids
+yy          = 1:h
+z           = t(z)
+
+library(plot3D)
+theta = 180
+phi   = 15.5
+f4    = persp3D(x=x, y=yy, z=z, phi=phi, theta=theta, xlab="\nrgdp[t+h|t]", ylab="h", zlab="\npredictive densities of rgdp", shade=NA, border=NA, ticktype="detailed", nticks=3,cex.lab=1, col=NA,plot=FALSE)
+perspbox (x=x, y=yy, z=z, bty="f", col.axis="black", phi=phi, theta=theta, xlab="\nrgdp[t+h|t]", ylab="h", zlab="\npredictive densities of rgdp", ticktype="detailed", nticks=3,cex.lab=1, col = NULL, plot = TRUE)
+polygon3D(x=c(interval.f[1,],interval.f[2,h:1]), y=c(1:h,h:1), z=rep(0,2*h), col = "#FF00FF", NAcol = "white", border = NA, add = TRUE, plot = TRUE)
+for (i in 1:h){
+  f4.l = trans3d(x=x, y=yy[i], z=z[,i], pmat=f4)
+  lines(f4.l, lwd=0.5, col="black")
+}
+f4.l1 = trans3d(x=point.f, y=yy, z=0, pmat=f4)
+lines(f4.l1, lwd=2, col="black")
+```
+
+
+
+
+## MCMC convergence for hyper-parameters
+
+```{r}
+#| label: mcmc
+#| warning: false
+#| fig-align: "center"
+#| out.width: "100%"
+
+plot.ts(run$hyper, main = "", col = "#FF00FF", xlab = "s", cex.lab = 2, cex.axis = 1.3)
+```
+
+## MCMC convergence for $\mathbf\Sigma_{\cdot1}$
+
+```{r}
+#| label: mcmc-si
+#| warning: false
+#| fig-align: "center"
+#| out.width: "100%"
+
+plot.ts(run$sigma[,1,], main = "", col = "#FF00FF", xlab = "s", cex.lab = 2, cex.axis = 1.3)
+```
+
+## MCMC convergence for $\boldsymbol\mu_0$
+
+```{r}
+#| label: mcmc-mu
+#| warning: false
+#| fig-align: "center"
+#| out.width: "100%"
+
+plot.ts(run$beta[,1,], main = "", col = "#FF00FF", xlab = "s", cex.lab = 2, cex.axis = 1.3)
+```
+
+## Posterior means for $\mathbf{A}$
+
+```{r}
+#| label: mean-a
+#| warning: false
+#| out.width: "100%"
+
+mean_A  = t(apply(run$beta, 2:3, mean))
+rownames(mean_A) = colnames(x)
+colnames(mean_A) = c("mu0",paste0("A",1:p %x% rep(1,3)))
+knitr::kable(mean_A, caption = "Posterior estimates for autoregressive parameters", digits = 2)
+```
+
+
+## Posterior means for $\mathbf\Sigma$
+
+```{r}
+#| label: mean-s
+#| warning: false
+#| out.width: "100%"
+
+mean_S  = t(apply(run$sigma, 2:3, mean))
+mean_S  = cbind(mean_S, cov2cor(mean_S))
+rownames(mean_S) = colnames(x)
+colnames(mean_S) = c(rep("cov",3),rep("cor",3))
+knitr::kable(mean_S, caption = "Posterior estimates for covariance", digits = 5)
+```
+
+## Posterior means for hyper-parameters
+
+```{r}
+#| label: mean-h
+#| warning: false
+#| out.width: "100%"
+
+mean_h  = rbind(apply(run$hyper, 2, mean), apply(run$hyper, 2, sd))
+rownames(mean_h) = c("E[hyper|data]", "sd[hyper|data]")
+knitr::kable(mean_h, caption = "Posterior estimates for hyper-parameters", digits = 3)
+```
 
 
 

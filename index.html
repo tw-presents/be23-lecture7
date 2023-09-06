@@ -29,6 +29,71 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="index_files/libs/revealjs/dist/theme/quarto.css">
   <link href="index_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
@@ -338,12 +403,14 @@ by Tomasz Woźniak
 </section>
 <section id="section" class="slide level2" data-background-color="#FF00FF">
 <h2></h2>
+<p><span class="math display">\[ \]</span></p>
 <h3 id="vector-autoregressions">Vector Autoregressions</h3>
 <h3 id="three-useful-distributions">Three Useful Distributions</h3>
 <h3 id="bayesian-estimation">Bayesian Estimation</h3>
 <h3 id="minnesota-and-dummy-observations-prior">Minnesota and Dummy Observations Prior</h3>
 <h3 id="bayesian-estimation-for-hierarchical-prior">Bayesian Estimation for Hierarchical Prior</h3>
 <h3 id="bayesian-forecasting-using-vars">Bayesian Forecasting using VARs</h3>
+<h3 id="us-data-analysis-using-r-package-bvar">US Data Analysis Using R Package BVAR</h3>
 </section>
 <section id="vector-autoregressions-1" class="slide level2" data-background-color="#FF00FF">
 <h2>Vector Autoregressions</h2>
@@ -804,6 +871,21 @@ X^* = \begin{bmatrix}X^+ \\ X^{++} \end{bmatrix}
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
+<section id="minnesota-and-dummy-observations-prior-2" class="slide level2">
+<h2>Minnesota and Dummy Observations Prior</h2>
+<h3 id="task.">Task.</h3>
+<p>Suppose that:</p>
+<ul>
+<li><span class="math inline">\(\bar{Y}_0 = \begin{bmatrix}1&amp;2\end{bmatrix}'\)</span></li>
+<li><span class="math inline">\(\mu = 0.5\)</span></li>
+<li><span class="math inline">\(\delta = 3\)</span></li>
+<li><span class="math inline">\(p = 1\)</span></li>
+</ul>
+<p>Write out the matrices <span class="math inline">\(Y^*\)</span> and <span class="math inline">\(X^*\)</span> of dimensions <span class="math inline">\(2\times 3\)</span> and <span class="math inline">\(3\times 3\)</span> respectively.</p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
 <section id="bayesian-estimation-for-hierarchical-prior-1" class="slide level2" data-background-color="#FF00FF">
 <h2>Bayesian Estimation for Hierarchical Prior</h2>
 </section>
@@ -952,6 +1034,726 @@ N_N\left(\mathbf{A}_1^{(s)} y_{T} + \dots + \mathbf{A}_p^{(s)} y_{T-p+1} + \bold
 N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T}^{(s)} + \dots + \mathbf{A}_p^{(s)} y_{T-p+2} + \boldsymbol\mu_0^{(s)},\mathbf\Sigma^{(s)}\right)
 \]</span></p>
 <p>and obtain <span class="math inline">\(\left\{y_{T+2}^{(s)},y_{T+1}^{(s)}\right\}_{s=1}^{S}\)</span></p>
+</section>
+<section id="us-data-analysis-using-r-package-bvar-1" class="slide level2" data-background-color="#FF00FF">
+<h2>US Data Analysis Using R Package BVAR</h2>
+</section>
+<section id="data-preparation" class="slide level2">
+<h2>Data preparation</h2>
+<div class="cell columns column-output-location" data-layout-align="center">
+<div class="column">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(BVAR)</span>
+<span id="cb1-3"><a href="#cb1-3"></a></span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># data</span></span>
+<span id="cb1-5"><a href="#cb1-5"></a>x <span class="ot">=</span> fred_qd[, <span class="fu">c</span>(<span class="st">"GDPC1"</span>, </span>
+<span id="cb1-6"><a href="#cb1-6"></a>                <span class="st">"GDPCTPI"</span>, </span>
+<span id="cb1-7"><a href="#cb1-7"></a>                <span class="st">"FEDFUNDS"</span>)]</span>
+<span id="cb1-8"><a href="#cb1-8"></a>x <span class="ot">=</span> <span class="fu">fred_transform</span>(</span>
+<span id="cb1-9"><a href="#cb1-9"></a>  x, </span>
+<span id="cb1-10"><a href="#cb1-10"></a>  <span class="at">codes =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">1</span>)</span>
+<span id="cb1-11"><a href="#cb1-11"></a>)</span>
+<span id="cb1-12"><a href="#cb1-12"></a></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="fu">plot.ts</span>(</span>
+<span id="cb1-14"><a href="#cb1-14"></a>  x, </span>
+<span id="cb1-15"><a href="#cb1-15"></a>  <span class="at">main =</span> <span class="st">""</span>,</span>
+<span id="cb1-16"><a href="#cb1-16"></a>  <span class="at">col =</span> <span class="st">"#FF00FF"</span>,</span>
+<span id="cb1-17"><a href="#cb1-17"></a>  <span class="at">lwd =</span> <span class="dv">4</span>,</span>
+<span id="cb1-18"><a href="#cb1-18"></a>  <span class="at">cex.axis =</span> <span class="dv">2</span>,</span>
+<span id="cb1-19"><a href="#cb1-19"></a>  <span class="at">cex.lab =</span> <span class="dv">2</span></span>
+<span id="cb1-20"><a href="#cb1-20"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div><div class="column">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/us-data-1.png" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="prior-setup" class="slide level2">
+<h2>Prior setup</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># priors</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>mn      <span class="ot">=</span> <span class="fu">bv_minnesota</span>(</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  <span class="at">lambda =</span> <span class="fu">bv_lambda</span>(<span class="at">mode =</span> <span class="fl">0.2</span>, <span class="at">sd =</span> <span class="fl">0.4</span>, <span class="at">min =</span> <span class="fl">0.0001</span>, <span class="at">max =</span> <span class="dv">5</span>),</span>
+<span id="cb2-4"><a href="#cb2-4"></a>  <span class="at">alpha =</span> <span class="fu">bv_alpha</span>(<span class="at">mode =</span> <span class="dv">2</span>), </span>
+<span id="cb2-5"><a href="#cb2-5"></a>  psi <span class="ot">&lt;-</span> <span class="fu">bv_psi</span>(<span class="at">scale =</span> <span class="fl">0.004</span>, <span class="at">shape =</span> <span class="fl">0.004</span>, <span class="at">mode =</span> <span class="st">"auto"</span>, <span class="at">min =</span> <span class="st">"auto"</span>, <span class="at">max =</span> <span class="st">"auto"</span>),</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  <span class="at">var =</span> <span class="fl">1e07</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>)</span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a>soc     <span class="ot">=</span> <span class="fu">bv_soc</span>(<span class="at">mode =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">min =</span> <span class="fl">1e-04</span>, <span class="at">max =</span> <span class="dv">50</span>)</span>
+<span id="cb2-10"><a href="#cb2-10"></a>sur     <span class="ot">=</span> <span class="fu">bv_sur</span>(<span class="at">mode =</span> <span class="dv">1</span>, <span class="at">sd =</span> <span class="dv">1</span>, <span class="at">min =</span> <span class="fl">1e-04</span>, <span class="at">max =</span> <span class="dv">50</span>)</span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a>priors  <span class="ot">=</span> <span class="fu">bv_priors</span>(<span class="at">hyper =</span> <span class="st">"auto"</span>, <span class="at">mn =</span> mn, <span class="at">soc =</span> soc, <span class="at">sur =</span> sur)</span>
+<span id="cb2-13"><a href="#cb2-13"></a></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co"># MH setup</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>mh      <span class="ot">=</span> <span class="fu">bv_metropolis</span>(</span>
+<span id="cb2-16"><a href="#cb2-16"></a>  <span class="at">scale_hess =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.0001</span>, <span class="fl">0.0001</span>),</span>
+<span id="cb2-17"><a href="#cb2-17"></a>  <span class="at">adjust_acc =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb2-18"><a href="#cb2-18"></a>  <span class="at">acc_lower =</span> <span class="fl">0.25</span>, </span>
+<span id="cb2-19"><a href="#cb2-19"></a>  <span class="at">acc_upper =</span> <span class="fl">0.45</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="estimation" class="slide level2">
+<h2>Estimation</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># estimation</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>p     <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>run   <span class="ot">=</span> <span class="fu">bvar</span>(</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  x, </span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="at">lags =</span> <span class="dv">5</span>, </span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="at">n_draw =</span> <span class="fl">3e4</span>,</span>
+<span id="cb3-7"><a href="#cb3-7"></a>  <span class="at">n_burn =</span> <span class="fl">1e4</span>,</span>
+<span id="cb3-8"><a href="#cb3-8"></a>  <span class="at">n_thin =</span> <span class="dv">1</span>,</span>
+<span id="cb3-9"><a href="#cb3-9"></a>  <span class="at">priors =</span> priors, </span>
+<span id="cb3-10"><a href="#cb3-10"></a>  <span class="at">mh =</span> mh, </span>
+<span id="cb3-11"><a href="#cb3-11"></a>  <span class="at">verbose =</span> <span class="cn">TRUE</span> <span class="co"># with progress bar</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimisation concluded.
+Posterior marginal likelihood: 1427.162
+Hyperparameters: lambda = 1.90846; soc = 0.19232; sur = 0.59946
+
+  |                                                                            
+  |                                                                      |   0%
+  |                                                                            
+  |                                                                      |   1%
+  |                                                                            
+  |=                                                                     |   1%
+  |                                                                            
+  |=                                                                     |   2%
+  |                                                                            
+  |==                                                                    |   2%
+  |                                                                            
+  |==                                                                    |   3%
+  |                                                                            
+  |==                                                                    |   4%
+  |                                                                            
+  |===                                                                   |   4%
+  |                                                                            
+  |===                                                                   |   5%
+  |                                                                            
+  |====                                                                  |   5%
+  |                                                                            
+  |====                                                                  |   6%
+  |                                                                            
+  |=====                                                                 |   6%
+  |                                                                            
+  |=====                                                                 |   7%
+  |                                                                            
+  |=====                                                                 |   8%
+  |                                                                            
+  |======                                                                |   8%
+  |                                                                            
+  |======                                                                |   9%
+  |                                                                            
+  |=======                                                               |   9%
+  |                                                                            
+  |=======                                                               |  10%
+  |                                                                            
+  |=======                                                               |  11%
+  |                                                                            
+  |========                                                              |  11%
+  |                                                                            
+  |========                                                              |  12%
+  |                                                                            
+  |=========                                                             |  12%
+  |                                                                            
+  |=========                                                             |  13%
+  |                                                                            
+  |=========                                                             |  14%
+  |                                                                            
+  |==========                                                            |  14%
+  |                                                                            
+  |==========                                                            |  15%
+  |                                                                            
+  |===========                                                           |  15%
+  |                                                                            
+  |===========                                                           |  16%
+  |                                                                            
+  |============                                                          |  16%
+  |                                                                            
+  |============                                                          |  17%
+  |                                                                            
+  |============                                                          |  18%
+  |                                                                            
+  |=============                                                         |  18%
+  |                                                                            
+  |=============                                                         |  19%
+  |                                                                            
+  |==============                                                        |  19%
+  |                                                                            
+  |==============                                                        |  20%
+  |                                                                            
+  |==============                                                        |  21%
+  |                                                                            
+  |===============                                                       |  21%
+  |                                                                            
+  |===============                                                       |  22%
+  |                                                                            
+  |================                                                      |  22%
+  |                                                                            
+  |================                                                      |  23%
+  |                                                                            
+  |================                                                      |  24%
+  |                                                                            
+  |=================                                                     |  24%
+  |                                                                            
+  |=================                                                     |  25%
+  |                                                                            
+  |==================                                                    |  25%
+  |                                                                            
+  |==================                                                    |  26%
+  |                                                                            
+  |===================                                                   |  26%
+  |                                                                            
+  |===================                                                   |  27%
+  |                                                                            
+  |===================                                                   |  28%
+  |                                                                            
+  |====================                                                  |  28%
+  |                                                                            
+  |====================                                                  |  29%
+  |                                                                            
+  |=====================                                                 |  29%
+  |                                                                            
+  |=====================                                                 |  30%
+  |                                                                            
+  |=====================                                                 |  31%
+  |                                                                            
+  |======================                                                |  31%
+  |                                                                            
+  |======================                                                |  32%
+  |                                                                            
+  |=======================                                               |  32%
+  |                                                                            
+  |=======================                                               |  33%
+  |                                                                            
+  |=======================                                               |  34%
+  |                                                                            
+  |========================                                              |  34%
+  |                                                                            
+  |========================                                              |  35%
+  |                                                                            
+  |=========================                                             |  35%
+  |                                                                            
+  |=========================                                             |  36%
+  |                                                                            
+  |==========================                                            |  36%
+  |                                                                            
+  |==========================                                            |  37%
+  |                                                                            
+  |==========================                                            |  38%
+  |                                                                            
+  |===========================                                           |  38%
+  |                                                                            
+  |===========================                                           |  39%
+  |                                                                            
+  |============================                                          |  39%
+  |                                                                            
+  |============================                                          |  40%
+  |                                                                            
+  |============================                                          |  41%
+  |                                                                            
+  |=============================                                         |  41%
+  |                                                                            
+  |=============================                                         |  42%
+  |                                                                            
+  |==============================                                        |  42%
+  |                                                                            
+  |==============================                                        |  43%
+  |                                                                            
+  |==============================                                        |  44%
+  |                                                                            
+  |===============================                                       |  44%
+  |                                                                            
+  |===============================                                       |  45%
+  |                                                                            
+  |================================                                      |  45%
+  |                                                                            
+  |================================                                      |  46%
+  |                                                                            
+  |=================================                                     |  46%
+  |                                                                            
+  |=================================                                     |  47%
+  |                                                                            
+  |=================================                                     |  48%
+  |                                                                            
+  |==================================                                    |  48%
+  |                                                                            
+  |==================================                                    |  49%
+  |                                                                            
+  |===================================                                   |  49%
+  |                                                                            
+  |===================================                                   |  50%
+  |                                                                            
+  |===================================                                   |  51%
+  |                                                                            
+  |====================================                                  |  51%
+  |                                                                            
+  |====================================                                  |  52%
+  |                                                                            
+  |=====================================                                 |  52%
+  |                                                                            
+  |=====================================                                 |  53%
+  |                                                                            
+  |=====================================                                 |  54%
+  |                                                                            
+  |======================================                                |  54%
+  |                                                                            
+  |======================================                                |  55%
+  |                                                                            
+  |=======================================                               |  55%
+  |                                                                            
+  |=======================================                               |  56%
+  |                                                                            
+  |========================================                              |  56%
+  |                                                                            
+  |========================================                              |  57%
+  |                                                                            
+  |========================================                              |  58%
+  |                                                                            
+  |=========================================                             |  58%
+  |                                                                            
+  |=========================================                             |  59%
+  |                                                                            
+  |==========================================                            |  59%
+  |                                                                            
+  |==========================================                            |  60%
+  |                                                                            
+  |==========================================                            |  61%
+  |                                                                            
+  |===========================================                           |  61%
+  |                                                                            
+  |===========================================                           |  62%
+  |                                                                            
+  |============================================                          |  62%
+  |                                                                            
+  |============================================                          |  63%
+  |                                                                            
+  |============================================                          |  64%
+  |                                                                            
+  |=============================================                         |  64%
+  |                                                                            
+  |=============================================                         |  65%
+  |                                                                            
+  |==============================================                        |  65%
+  |                                                                            
+  |==============================================                        |  66%
+  |                                                                            
+  |===============================================                       |  66%
+  |                                                                            
+  |===============================================                       |  67%
+  |                                                                            
+  |===============================================                       |  68%
+  |                                                                            
+  |================================================                      |  68%
+  |                                                                            
+  |================================================                      |  69%
+  |                                                                            
+  |=================================================                     |  69%
+  |                                                                            
+  |=================================================                     |  70%
+  |                                                                            
+  |=================================================                     |  71%
+  |                                                                            
+  |==================================================                    |  71%
+  |                                                                            
+  |==================================================                    |  72%
+  |                                                                            
+  |===================================================                   |  72%
+  |                                                                            
+  |===================================================                   |  73%
+  |                                                                            
+  |===================================================                   |  74%
+  |                                                                            
+  |====================================================                  |  74%
+  |                                                                            
+  |====================================================                  |  75%
+  |                                                                            
+  |=====================================================                 |  75%
+  |                                                                            
+  |=====================================================                 |  76%
+  |                                                                            
+  |======================================================                |  76%
+  |                                                                            
+  |======================================================                |  77%
+  |                                                                            
+  |======================================================                |  78%
+  |                                                                            
+  |=======================================================               |  78%
+  |                                                                            
+  |=======================================================               |  79%
+  |                                                                            
+  |========================================================              |  79%
+  |                                                                            
+  |========================================================              |  80%
+  |                                                                            
+  |========================================================              |  81%
+  |                                                                            
+  |=========================================================             |  81%
+  |                                                                            
+  |=========================================================             |  82%
+  |                                                                            
+  |==========================================================            |  82%
+  |                                                                            
+  |==========================================================            |  83%
+  |                                                                            
+  |==========================================================            |  84%
+  |                                                                            
+  |===========================================================           |  84%
+  |                                                                            
+  |===========================================================           |  85%
+  |                                                                            
+  |============================================================          |  85%
+  |                                                                            
+  |============================================================          |  86%
+  |                                                                            
+  |=============================================================         |  86%
+  |                                                                            
+  |=============================================================         |  87%
+  |                                                                            
+  |=============================================================         |  88%
+  |                                                                            
+  |==============================================================        |  88%
+  |                                                                            
+  |==============================================================        |  89%
+  |                                                                            
+  |===============================================================       |  89%
+  |                                                                            
+  |===============================================================       |  90%
+  |                                                                            
+  |===============================================================       |  91%
+  |                                                                            
+  |================================================================      |  91%
+  |                                                                            
+  |================================================================      |  92%
+  |                                                                            
+  |=================================================================     |  92%
+  |                                                                            
+  |=================================================================     |  93%
+  |                                                                            
+  |=================================================================     |  94%
+  |                                                                            
+  |==================================================================    |  94%
+  |                                                                            
+  |==================================================================    |  95%
+  |                                                                            
+  |===================================================================   |  95%
+  |                                                                            
+  |===================================================================   |  96%
+  |                                                                            
+  |====================================================================  |  96%
+  |                                                                            
+  |====================================================================  |  97%
+  |                                                                            
+  |====================================================================  |  98%
+  |                                                                            
+  |===================================================================== |  98%
+  |                                                                            
+  |===================================================================== |  99%
+  |                                                                            
+  |======================================================================|  99%
+  |                                                                            
+  |======================================================================| 100%
+Finished MCMC after 8.04 secs.</code></pre>
+</div>
+</div>
+</section>
+<section id="forecasting" class="slide level2">
+<h2>Forecasting</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># forecasting </span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">predict</span>(run) <span class="ot">&lt;-</span> <span class="fu">predict</span>(</span>
+<span id="cb5-3"><a href="#cb5-3"></a>  run, </span>
+<span id="cb5-4"><a href="#cb5-4"></a>  <span class="at">horizon =</span> <span class="dv">20</span>, </span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="at">conf_bands =</span> <span class="fu">seq</span>(<span class="at">from =</span> <span class="fl">0.05</span>, <span class="at">to =</span> <span class="fl">0.4</span>, <span class="at">by =</span> <span class="fl">0.01</span>)</span>
+<span id="cb5-6"><a href="#cb5-6"></a>)</span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="fu">plot</span>(</span>
+<span id="cb5-8"><a href="#cb5-8"></a>  <span class="fu">predict</span>(run), </span>
+<span id="cb5-9"><a href="#cb5-9"></a>  <span class="at">area =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb5-10"><a href="#cb5-10"></a>  <span class="at">t_back =</span> <span class="dv">32</span>,</span>
+<span id="cb5-11"><a href="#cb5-11"></a>  <span class="at">vars =</span> <span class="fu">c</span>(<span class="st">"GDPC1"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="forecasting-output" class="slide level2 output-location-slide"><h2>Forecasting</h2><div class="cell output-location-slide" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/forecasting-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="forecasting-1" class="slide level2">
+<h2>Forecasting</h2>
+
+<img data-src="index_files/figure-revealjs/forecasting-gdpdef-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
+<section id="forecasting-2" class="slide level2">
+<h2>Forecasting</h2>
+
+<img data-src="index_files/figure-revealjs/forecasting-ffr-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
+<section id="forecasting-3" class="slide level2">
+<h2>Forecasting</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>Y.h   <span class="ot">=</span> <span class="fu">aperm</span>(run<span class="sc">$</span>fcast<span class="sc">$</span>fcast, <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>))</span>
+<span id="cb6-2"><a href="#cb6-2"></a>h     <span class="ot">=</span> <span class="fu">dim</span>(Y.h)[<span class="dv">1</span>]</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a>limits<span class="fl">.1</span>    <span class="ot">=</span> <span class="fu">range</span>(Y.h[,<span class="dv">1</span>,])</span>
+<span id="cb6-5"><a href="#cb6-5"></a>point.f     <span class="ot">=</span> <span class="fu">apply</span>(Y.h[,<span class="dv">1</span>,],<span class="dv">1</span>,mean)</span>
+<span id="cb6-6"><a href="#cb6-6"></a>interval.f  <span class="ot">=</span> <span class="fu">apply</span>(Y.h[,<span class="dv">1</span>,],<span class="dv">1</span>,HDInterval<span class="sc">::</span>hdi,<span class="at">credMass=</span><span class="fl">0.90</span>)</span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a>x           <span class="ot">=</span> <span class="fu">seq</span>(<span class="at">from=</span>limits<span class="fl">.1</span>[<span class="dv">1</span>], <span class="at">to=</span>limits<span class="fl">.1</span>[<span class="dv">2</span>], <span class="at">length.out=</span><span class="dv">100</span>)</span>
+<span id="cb6-9"><a href="#cb6-9"></a>z           <span class="ot">=</span> <span class="fu">matrix</span>(<span class="cn">NA</span>,h,<span class="dv">99</span>)</span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h){</span>
+<span id="cb6-11"><a href="#cb6-11"></a>  z[i,]     <span class="ot">=</span> <span class="fu">hist</span>(Y.h[i,<span class="dv">1</span>,], <span class="at">breaks=</span>x, <span class="at">plot=</span><span class="cn">FALSE</span>)<span class="sc">$</span>density</span>
+<span id="cb6-12"><a href="#cb6-12"></a>}</span>
+<span id="cb6-13"><a href="#cb6-13"></a>x           <span class="ot">=</span> <span class="fu">hist</span>(Y.h[i,<span class="dv">1</span>,], <span class="at">breaks=</span>x, <span class="at">plot=</span><span class="cn">FALSE</span>)<span class="sc">$</span>mids</span>
+<span id="cb6-14"><a href="#cb6-14"></a>yy          <span class="ot">=</span> <span class="dv">1</span><span class="sc">:</span>h</span>
+<span id="cb6-15"><a href="#cb6-15"></a>z           <span class="ot">=</span> <span class="fu">t</span>(z)</span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="fu">library</span>(plot3D)</span>
+<span id="cb6-18"><a href="#cb6-18"></a>theta <span class="ot">=</span> <span class="dv">180</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a>phi   <span class="ot">=</span> <span class="fl">15.5</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a>f4    <span class="ot">=</span> <span class="fu">persp3D</span>(<span class="at">x=</span>x, <span class="at">y=</span>yy, <span class="at">z=</span>z, <span class="at">phi=</span>phi, <span class="at">theta=</span>theta, <span class="at">xlab=</span><span class="st">"</span><span class="sc">\n</span><span class="st">rgdp[t+h|t]"</span>, <span class="at">ylab=</span><span class="st">"h"</span>, <span class="at">zlab=</span><span class="st">"</span><span class="sc">\n</span><span class="st">predictive densities of rgdp"</span>, <span class="at">shade=</span><span class="cn">NA</span>, <span class="at">border=</span><span class="cn">NA</span>, <span class="at">ticktype=</span><span class="st">"detailed"</span>, <span class="at">nticks=</span><span class="dv">3</span>,<span class="at">cex.lab=</span><span class="dv">1</span>, <span class="at">col=</span><span class="cn">NA</span>,<span class="at">plot=</span><span class="cn">FALSE</span>)</span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="fu">perspbox</span> (<span class="at">x=</span>x, <span class="at">y=</span>yy, <span class="at">z=</span>z, <span class="at">bty=</span><span class="st">"f"</span>, <span class="at">col.axis=</span><span class="st">"black"</span>, <span class="at">phi=</span>phi, <span class="at">theta=</span>theta, <span class="at">xlab=</span><span class="st">"</span><span class="sc">\n</span><span class="st">rgdp[t+h|t]"</span>, <span class="at">ylab=</span><span class="st">"h"</span>, <span class="at">zlab=</span><span class="st">"</span><span class="sc">\n</span><span class="st">predictive densities of rgdp"</span>, <span class="at">ticktype=</span><span class="st">"detailed"</span>, <span class="at">nticks=</span><span class="dv">3</span>,<span class="at">cex.lab=</span><span class="dv">1</span>, <span class="at">col =</span> <span class="cn">NULL</span>, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="fu">polygon3D</span>(<span class="at">x=</span><span class="fu">c</span>(interval.f[<span class="dv">1</span>,],interval.f[<span class="dv">2</span>,h<span class="sc">:</span><span class="dv">1</span>]), <span class="at">y=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span>h,h<span class="sc">:</span><span class="dv">1</span>), <span class="at">z=</span><span class="fu">rep</span>(<span class="dv">0</span>,<span class="dv">2</span><span class="sc">*</span>h), <span class="at">col =</span> <span class="st">"#FF00FF"</span>, <span class="at">NAcol =</span> <span class="st">"white"</span>, <span class="at">border =</span> <span class="cn">NA</span>, <span class="at">add =</span> <span class="cn">TRUE</span>, <span class="at">plot =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>h){</span>
+<span id="cb6-24"><a href="#cb6-24"></a>  f4.l <span class="ot">=</span> <span class="fu">trans3d</span>(<span class="at">x=</span>x, <span class="at">y=</span>yy[i], <span class="at">z=</span>z[,i], <span class="at">pmat=</span>f4)</span>
+<span id="cb6-25"><a href="#cb6-25"></a>  <span class="fu">lines</span>(f4.l, <span class="at">lwd=</span><span class="fl">0.5</span>, <span class="at">col=</span><span class="st">"black"</span>)</span>
+<span id="cb6-26"><a href="#cb6-26"></a>}</span>
+<span id="cb6-27"><a href="#cb6-27"></a>f4.l1 <span class="ot">=</span> <span class="fu">trans3d</span>(<span class="at">x=</span>point.f, <span class="at">y=</span>yy, <span class="at">z=</span><span class="dv">0</span>, <span class="at">pmat=</span>f4)</span>
+<span id="cb6-28"><a href="#cb6-28"></a><span class="fu">lines</span>(f4.l1, <span class="at">lwd=</span><span class="dv">2</span>, <span class="at">col=</span><span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+</section>
+<section id="forecasting-3-output" class="slide level2 output-location-slide"><h2>Forecasting</h2><div class="cell output-location-slide" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="index_files/figure-revealjs/3D-gdp-1.png" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div></section><section id="mcmc-convergence-for-hyper-parameters" class="slide level2">
+<h2>MCMC convergence for hyper-parameters</h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">plot.ts</span>(run<span class="sc">$</span>hyper, <span class="at">main =</span> <span class="st">""</span>, <span class="at">col =</span> <span class="st">"#FF00FF"</span>, <span class="at">xlab =</span> <span class="st">"s"</span>, <span class="at">cex.lab =</span> <span class="dv">2</span>, <span class="at">cex.axis =</span> <span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/mcmc-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
+<section id="mcmc-convergence-for-mathbfsigma_cdot1" class="slide level2">
+<h2>MCMC convergence for <span class="math inline">\(\mathbf\Sigma_{\cdot1}\)</span></h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">plot.ts</span>(run<span class="sc">$</span>sigma[,<span class="dv">1</span>,], <span class="at">main =</span> <span class="st">""</span>, <span class="at">col =</span> <span class="st">"#FF00FF"</span>, <span class="at">xlab =</span> <span class="st">"s"</span>, <span class="at">cex.lab =</span> <span class="dv">2</span>, <span class="at">cex.axis =</span> <span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/mcmc-si-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
+<section id="mcmc-convergence-for-boldsymbolmu_0" class="slide level2">
+<h2>MCMC convergence for <span class="math inline">\(\boldsymbol\mu_0\)</span></h2>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">plot.ts</span>(run<span class="sc">$</span>beta[,<span class="dv">1</span>,], <span class="at">main =</span> <span class="st">""</span>, <span class="at">col =</span> <span class="st">"#FF00FF"</span>, <span class="at">xlab =</span> <span class="st">"s"</span>, <span class="at">cex.lab =</span> <span class="dv">2</span>, <span class="at">cex.axis =</span> <span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="index_files/figure-revealjs/mcmc-mu-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
+<section id="posterior-means-for-mathbfa" class="slide level2">
+<h2>Posterior means for <span class="math inline">\(\mathbf{A}\)</span></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>mean_A  <span class="ot">=</span> <span class="fu">t</span>(<span class="fu">apply</span>(run<span class="sc">$</span>beta, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, mean))</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="fu">rownames</span>(mean_A) <span class="ot">=</span> <span class="fu">colnames</span>(x)</span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="fu">colnames</span>(mean_A) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"mu0"</span>,<span class="fu">paste0</span>(<span class="st">"A"</span>,<span class="dv">1</span><span class="sc">:</span>p <span class="sc">%x%</span> <span class="fu">rep</span>(<span class="dv">1</span>,<span class="dv">3</span>)))</span>
+<span id="cb10-4"><a href="#cb10-4"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(mean_A, <span class="at">caption =</span> <span class="st">"Posterior estimates for autoregressive parameters"</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table style="width:100%;">
+<caption>Posterior estimates for autoregressive parameters</caption>
+<colgroup>
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">mu0</th>
+<th style="text-align: right;">A1</th>
+<th style="text-align: right;">A1</th>
+<th style="text-align: right;">A1</th>
+<th style="text-align: right;">A2</th>
+<th style="text-align: right;">A2</th>
+<th style="text-align: right;">A2</th>
+<th style="text-align: right;">A3</th>
+<th style="text-align: right;">A3</th>
+<th style="text-align: right;">A3</th>
+<th style="text-align: right;">A4</th>
+<th style="text-align: right;">A4</th>
+<th style="text-align: right;">A4</th>
+<th style="text-align: right;">A5</th>
+<th style="text-align: right;">A5</th>
+<th style="text-align: right;">A5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">1.00</td>
+<td style="text-align: right;">-0.08</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.07</td>
+<td style="text-align: right;">0.06</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-0.03</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-0.01</td>
+<td style="text-align: right;">1.37</td>
+<td style="text-align: right;">0.0</td>
+<td style="text-align: right;">0.01</td>
+<td style="text-align: right;">-0.13</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-0.10</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-0.08</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">-0.07</td>
+<td style="text-align: right;">0.00</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">-0.02</td>
+<td style="text-align: right;">11.19</td>
+<td style="text-align: right;">12.35</td>
+<td style="text-align: right;">1.2</td>
+<td style="text-align: right;">-3.29</td>
+<td style="text-align: right;">1.64</td>
+<td style="text-align: right;">-0.49</td>
+<td style="text-align: right;">-4.00</td>
+<td style="text-align: right;">-9.48</td>
+<td style="text-align: right;">0.36</td>
+<td style="text-align: right;">-2.42</td>
+<td style="text-align: right;">-3.54</td>
+<td style="text-align: right;">-0.11</td>
+<td style="text-align: right;">-1.49</td>
+<td style="text-align: right;">-0.98</td>
+<td style="text-align: right;">-0.03</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="posterior-means-for-mathbfsigma" class="slide level2">
+<h2>Posterior means for <span class="math inline">\(\mathbf\Sigma\)</span></h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>mean_S  <span class="ot">=</span> <span class="fu">t</span>(<span class="fu">apply</span>(run<span class="sc">$</span>sigma, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, mean))</span>
+<span id="cb11-2"><a href="#cb11-2"></a>mean_S  <span class="ot">=</span> <span class="fu">cbind</span>(mean_S, <span class="fu">cov2cor</span>(mean_S))</span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="fu">rownames</span>(mean_S) <span class="ot">=</span> <span class="fu">colnames</span>(x)</span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="fu">colnames</span>(mean_S) <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">"cov"</span>,<span class="dv">3</span>),<span class="fu">rep</span>(<span class="st">"cor"</span>,<span class="dv">3</span>))</span>
+<span id="cb11-5"><a href="#cb11-5"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(mean_S, <span class="at">caption =</span> <span class="st">"Posterior estimates for covariance"</span>, <span class="at">digits =</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table>
+<caption>Posterior estimates for covariance</caption>
+<thead>
+<tr class="header">
+<th style="text-align: right;">cov</th>
+<th style="text-align: right;">cov</th>
+<th style="text-align: right;">cov</th>
+<th style="text-align: right;">cor</th>
+<th style="text-align: right;">cor</th>
+<th style="text-align: right;">cor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">0.00015</td>
+<td style="text-align: right;">0.00001</td>
+<td style="text-align: right;">0.00205</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">0.10159</td>
+<td style="text-align: right;">0.21068</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">0.00001</td>
+<td style="text-align: right;">0.00002</td>
+<td style="text-align: right;">0.00034</td>
+<td style="text-align: right;">0.10159</td>
+<td style="text-align: right;">1.00000</td>
+<td style="text-align: right;">0.10226</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">0.00205</td>
+<td style="text-align: right;">0.00034</td>
+<td style="text-align: right;">0.61374</td>
+<td style="text-align: right;">0.21068</td>
+<td style="text-align: right;">0.10226</td>
+<td style="text-align: right;">1.00000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="posterior-means-for-hyper-parameters" class="slide level2">
+<h2>Posterior means for hyper-parameters</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>mean_h  <span class="ot">=</span> <span class="fu">rbind</span>(<span class="fu">apply</span>(run<span class="sc">$</span>hyper, <span class="dv">2</span>, mean), <span class="fu">apply</span>(run<span class="sc">$</span>hyper, <span class="dv">2</span>, sd))</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">rownames</span>(mean_h) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"E[hyper|data]"</span>, <span class="st">"sd[hyper|data]"</span>)</span>
+<span id="cb12-3"><a href="#cb12-3"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(mean_h, <span class="at">caption =</span> <span class="st">"Posterior estimates for hyper-parameters"</span>, <span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table>
+<caption>Posterior estimates for hyper-parameters</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">lambda</th>
+<th style="text-align: right;">soc</th>
+<th style="text-align: right;">sur</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">E[hyper|data]</td>
+<td style="text-align: right;">1.984</td>
+<td style="text-align: right;">0.323</td>
+<td style="text-align: right;">0.895</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sd[hyper|data]</td>
+<td style="text-align: right;">0.304</td>
+<td style="text-align: right;">0.206</td>
+<td style="text-align: right;">0.428</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="footer footer-default">
 
 </div>
@@ -1116,7 +1918,7 @@ N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T}^{(s)} + \dots + \
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'none',
+        transition: 'concave',
 
         // Transition speed (default/fast/slow)
         transitionSpeed: 'default',
@@ -1170,6 +1972,44 @@ N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T}^{(s)} + \dots + \
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
     window.document.addEventListener("DOMContentLoaded", function (event) {
       const toggleBodyColorMode = (bsSheetEl) => {
