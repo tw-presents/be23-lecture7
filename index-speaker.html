@@ -412,6 +412,16 @@ by Tomasz Woźniak
 <h3 id="bayesian-forecasting-using-vars">Bayesian Forecasting using VARs</h3>
 <h3 id="us-data-analysis-using-r-package-bvar">US Data Analysis Using R Package BVAR</h3>
 </section>
+<section id="materials" class="slide level2" data-background-color="#FF00FF">
+<h2>Materials</h2>
+<p><span class="math display">\[ \]</span></p>
+<h3 id="lecture-slides-as-a-website">Lecture Slides <a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">as a Website</a></h3>
+<h3 id="a-dedicated-reading-woźniak-2016-aerev">A Dedicated Reading <a href="https://doi.org/10.1111/1467-8462.12179">Woźniak (2016, AERev)</a></h3>
+<h3 id="quarto-document-template-for-your-own-australian-data-forecasting"><strong>Quarto</strong> <a href="">document template</a> for your own Australian data forecasting</h3>
+<h3 id="github-repo-to-reproduce-the-slides-and-results">GitHub <a href="https://github.com/Bayesian-Econometrics-2023/be23-lecture7">repo</a> to reproduce the slides and results</h3>
+<h3 id="a-kahoot-quiz">A <a href="https://kahoot.it/">Kahoot!</a> Quiz</h3>
+<h3 id="tasks">Tasks</h3>
+</section>
 <section id="vector-autoregressions-1" class="slide level2" data-background-color="#FF00FF">
 <h2>Vector Autoregressions</h2>
 </section>
@@ -871,8 +881,8 @@ X^* = \begin{bmatrix}X^+ \\ X^{++} \end{bmatrix}
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
-<section id="minnesota-and-dummy-observations-prior-2" class="slide level2">
-<h2>Minnesota and Dummy Observations Prior</h2>
+<section id="dummy-observations-prior-3" class="slide level2">
+<h2>Dummy Observations Prior</h2>
 <h3 id="task.">Task.</h3>
 <p>Suppose that:</p>
 <ul>
@@ -1031,15 +1041,26 @@ N_N\left(\mathbf{A}_1^{(s)} y_{T} + \dots + \mathbf{A}_p^{(s)} y_{T-p+1} + \bold
 \]</span></p>
 <h4 id="step-3-sample-from-2-period-ahead-predictive-density">Step 3: Sample from 2-period ahead predictive density</h4>
 <p>For each of the <span class="math inline">\(S\)</span> draws, sample <span class="math inline">\(y_{T+2}^{(s)}\)</span> from <span class="math display">\[
-N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T}^{(s)} + \dots + \mathbf{A}_p^{(s)} y_{T-p+2} + \boldsymbol\mu_0^{(s)},\mathbf\Sigma^{(s)}\right)
+N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T} + \dots + \mathbf{A}_p^{(s)} y_{T-p+2} + \boldsymbol\mu_0^{(s)},\mathbf\Sigma^{(s)}\right)
 \]</span></p>
 <p>and obtain <span class="math inline">\(\left\{y_{T+2}^{(s)},y_{T+1}^{(s)}\right\}_{s=1}^{S}\)</span></p>
+</section>
+<section id="the-bayesian-vars-quiz" class="slide level2">
+<h2>The Bayesian VARs Quiz</h2>
+<p><span class="math display">\[ \]</span></p>
+<p><a href="https://kahoot.it">GO TO THE GAME</a></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
 <section id="us-data-analysis-using-r-package-bvar-1" class="slide level2" data-background-color="#FF00FF">
 <h2>US Data Analysis Using R Package BVAR</h2>
 </section>
 <section id="data-preparation" class="slide level2">
 <h2>Data preparation</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell columns column-output-location" data-layout-align="center">
 <div class="column">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="fu">set.seed</span>(<span class="dv">42</span>)</span>
@@ -1075,6 +1096,9 @@ N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T}^{(s)} + \dots + \
 </section>
 <section id="prior-setup" class="slide level2">
 <h2>Prior setup</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co"># priors</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>mn      <span class="ot">=</span> <span class="fu">bv_minnesota</span>(</span>
@@ -1100,12 +1124,15 @@ N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T}^{(s)} + \dots + \
 </section>
 <section id="estimation" class="slide level2">
 <h2>Estimation</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># estimation</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>p     <span class="ot">=</span> <span class="dv">5</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a>run   <span class="ot">=</span> <span class="fu">bvar</span>(</span>
 <span id="cb3-4"><a href="#cb3-4"></a>  x, </span>
-<span id="cb3-5"><a href="#cb3-5"></a>  <span class="at">lags =</span> <span class="dv">5</span>, </span>
+<span id="cb3-5"><a href="#cb3-5"></a>  <span class="at">lags =</span> p, </span>
 <span id="cb3-6"><a href="#cb3-6"></a>  <span class="at">n_draw =</span> <span class="fl">3e4</span>,</span>
 <span id="cb3-7"><a href="#cb3-7"></a>  <span class="at">n_burn =</span> <span class="fl">1e4</span>,</span>
 <span id="cb3-8"><a href="#cb3-8"></a>  <span class="at">n_thin =</span> <span class="dv">1</span>,</span>
@@ -1460,12 +1487,15 @@ Hyperparameters: lambda = 1.90846; soc = 0.19232; sur = 0.59946
   |======================================================================|  99%
   |                                                                            
   |======================================================================| 100%
-Finished MCMC after 8.04 secs.</code></pre>
+Finished MCMC after 8.11 secs.</code></pre>
 </div>
 </div>
 </section>
 <section id="forecasting" class="slide level2">
 <h2>Forecasting</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># forecasting </span></span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="fu">predict</span>(run) <span class="ot">&lt;-</span> <span class="fu">predict</span>(</span>
@@ -1492,14 +1522,23 @@ Finished MCMC after 8.04 secs.</code></pre>
 </div>
 </div></section><section id="forecasting-1" class="slide level2">
 <h2>Forecasting</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 
 <img data-src="index_files/figure-revealjs/forecasting-gdpdef-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
 <section id="forecasting-2" class="slide level2">
 <h2>Forecasting</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 
 <img data-src="index_files/figure-revealjs/forecasting-ffr-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
 <section id="forecasting-3" class="slide level2">
 <h2>Forecasting</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>Y.h   <span class="ot">=</span> <span class="fu">aperm</span>(run<span class="sc">$</span>fcast<span class="sc">$</span>fcast, <span class="fu">c</span>(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">1</span>))</span>
 <span id="cb6-2"><a href="#cb6-2"></a>h     <span class="ot">=</span> <span class="fu">dim</span>(Y.h)[<span class="dv">1</span>]</span>
@@ -1542,6 +1581,9 @@ Finished MCMC after 8.04 secs.</code></pre>
 </div>
 </div></section><section id="mcmc-convergence-for-hyper-parameters" class="slide level2">
 <h2>MCMC convergence for hyper-parameters</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">plot.ts</span>(run<span class="sc">$</span>hyper, <span class="at">main =</span> <span class="st">""</span>, <span class="at">col =</span> <span class="st">"#FF00FF"</span>, <span class="at">xlab =</span> <span class="st">"s"</span>, <span class="at">cex.lab =</span> <span class="dv">2</span>, <span class="at">cex.axis =</span> <span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
@@ -1549,6 +1591,9 @@ Finished MCMC after 8.04 secs.</code></pre>
 <img data-src="index_files/figure-revealjs/mcmc-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
 <section id="mcmc-convergence-for-mathbfsigma_cdot1" class="slide level2">
 <h2>MCMC convergence for <span class="math inline">\(\mathbf\Sigma_{\cdot1}\)</span></h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="fu">plot.ts</span>(run<span class="sc">$</span>sigma[,<span class="dv">1</span>,], <span class="at">main =</span> <span class="st">""</span>, <span class="at">col =</span> <span class="st">"#FF00FF"</span>, <span class="at">xlab =</span> <span class="st">"s"</span>, <span class="at">cex.lab =</span> <span class="dv">2</span>, <span class="at">cex.axis =</span> <span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
@@ -1556,6 +1601,9 @@ Finished MCMC after 8.04 secs.</code></pre>
 <img data-src="index_files/figure-revealjs/mcmc-si-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
 <section id="mcmc-convergence-for-boldsymbolmu_0" class="slide level2">
 <h2>MCMC convergence for <span class="math inline">\(\boldsymbol\mu_0\)</span></h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">plot.ts</span>(run<span class="sc">$</span>beta[,<span class="dv">1</span>,], <span class="at">main =</span> <span class="st">""</span>, <span class="at">col =</span> <span class="st">"#FF00FF"</span>, <span class="at">xlab =</span> <span class="st">"s"</span>, <span class="at">cex.lab =</span> <span class="dv">2</span>, <span class="at">cex.axis =</span> <span class="fl">1.3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
@@ -1563,6 +1611,9 @@ Finished MCMC after 8.04 secs.</code></pre>
 <img data-src="index_files/figure-revealjs/mcmc-mu-1.png" style="width:100.0%" class="r-stretch quarto-figure-center"></section>
 <section id="posterior-means-for-mathbfa" class="slide level2">
 <h2>Posterior means for <span class="math inline">\(\mathbf{A}\)</span></h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>mean_A  <span class="ot">=</span> <span class="fu">t</span>(<span class="fu">apply</span>(run<span class="sc">$</span>beta, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, mean))</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="fu">rownames</span>(mean_A) <span class="ot">=</span> <span class="fu">colnames</span>(x)</span>
@@ -1671,6 +1722,9 @@ Finished MCMC after 8.04 secs.</code></pre>
 </section>
 <section id="posterior-means-for-mathbfsigma" class="slide level2">
 <h2>Posterior means for <span class="math inline">\(\mathbf\Sigma\)</span></h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>mean_S  <span class="ot">=</span> <span class="fu">t</span>(<span class="fu">apply</span>(run<span class="sc">$</span>sigma, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>, mean))</span>
 <span id="cb11-2"><a href="#cb11-2"></a>mean_S  <span class="ot">=</span> <span class="fu">cbind</span>(mean_S, <span class="fu">cov2cor</span>(mean_S))</span>
@@ -1722,6 +1776,9 @@ Finished MCMC after 8.04 secs.</code></pre>
 </section>
 <section id="posterior-means-for-hyper-parameters" class="slide level2">
 <h2>Posterior means for hyper-parameters</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>mean_h  <span class="ot">=</span> <span class="fu">rbind</span>(<span class="fu">apply</span>(run<span class="sc">$</span>hyper, <span class="dv">2</span>, mean), <span class="fu">apply</span>(run<span class="sc">$</span>hyper, <span class="dv">2</span>, sd))</span>
 <span id="cb12-2"><a href="#cb12-2"></a><span class="fu">rownames</span>(mean_h) <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"E[hyper|data]"</span>, <span class="st">"sd[hyper|data]"</span>)</span>
@@ -1754,6 +1811,14 @@ Finished MCMC after 8.04 secs.</code></pre>
 </table>
 </div>
 </div>
+</section>
+<section id="australian-data-forecasting" class="slide level2">
+<h2>Australian Data Forecasting</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+<p><span class="math display">\[ \]</span></p>
+<p><a href="">DOWMLOAD THE SCRIPT</a></p>
 <div class="footer footer-default">
 
 </div>

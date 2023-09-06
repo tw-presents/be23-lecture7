@@ -36,6 +36,24 @@ $$ $$
 
 
 
+
+## Materials {background-color="#FF00FF"}
+
+$$ $$
+
+### Lecture Slides [as a Website](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+
+### A Dedicated Reading [Woźniak (2016, AERev)]( https://doi.org/10.1111/1467-8462.12179)
+
+### **Quarto** [document template]() for your own Australian data forecasting
+
+### GitHub [repo](https://github.com/Bayesian-Econometrics-2023/be23-lecture7) to reproduce the slides and results
+
+### A [Kahoot!](https://kahoot.it/) Quiz
+
+### Tasks
+
+
 ## Vector Autoregressions {background-color="#FF00FF"}
 
 ## Vector Autoregressions
@@ -582,7 +600,7 @@ $$
 
 
 
-## Minnesota and Dummy Observations Prior
+## Dummy Observations Prior
 
 ### Task.
 
@@ -819,10 +837,28 @@ $$
 
 For each of the $S$ draws, sample $y_{T+2}^{(s)}$ from 
 $$ 
-N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T}^{(s)} + \dots + \mathbf{A}_p^{(s)} y_{T-p+2} + \boldsymbol\mu_0^{(s)},\mathbf\Sigma^{(s)}\right)
+N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T} + \dots + \mathbf{A}_p^{(s)} y_{T-p+2} + \boldsymbol\mu_0^{(s)},\mathbf\Sigma^{(s)}\right)
 $$
 
 and obtain $\left\{y_{T+2}^{(s)},y_{T+1}^{(s)}\right\}_{s=1}^{S}$
+
+
+
+
+
+## The Bayesian VARs Quiz
+
+$$ $$
+
+[GO TO THE GAME](https://kahoot.it)
+
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
+
+
 
 
 
@@ -834,6 +870,10 @@ and obtain $\left\{y_{T+2}^{(s)},y_{T+1}^{(s)}\right\}_{s=1}^{S}$
 ## US Data Analysis Using R Package BVAR {background-color="#FF00FF"}
 
 ## Data preparation
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
 
 ```{r}
 #| label: us-data
@@ -869,6 +909,10 @@ plot.ts(
 
 ## Prior setup
 
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
 ```{r}
 #| label: priors
 #| warning: false
@@ -898,6 +942,10 @@ mh      = bv_metropolis(
 
 ## Estimation
 
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
 ```{r}
 #| label: estimation
 
@@ -905,7 +953,7 @@ mh      = bv_metropolis(
 p     = 5
 run   = bvar(
   x, 
-  lags = 5, 
+  lags = p, 
   n_draw = 3e4,
   n_burn = 1e4,
   n_thin = 1,
@@ -919,6 +967,10 @@ run   = bvar(
 
 
 ## Forecasting
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
 
 ```{r}
 #| label: forecasting
@@ -945,6 +997,10 @@ plot(
 
 ## Forecasting
 
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
 ```{r}
 #| label: forecasting-gdpdef
 #| echo: false
@@ -963,6 +1019,10 @@ plot(
 
 
 ## Forecasting
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
 
 ```{r}
 #| label: forecasting-ffr
@@ -983,6 +1043,10 @@ plot(
 
 
 ## Forecasting
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
 
 ```{r}
 #| label: 3D-gdp
@@ -1026,6 +1090,10 @@ lines(f4.l1, lwd=2, col="black")
 
 ## MCMC convergence for hyper-parameters
 
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
 ```{r}
 #| label: mcmc
 #| warning: false
@@ -1036,6 +1104,10 @@ plot.ts(run$hyper, main = "", col = "#FF00FF", xlab = "s", cex.lab = 2, cex.axis
 ```
 
 ## MCMC convergence for $\mathbf\Sigma_{\cdot1}$
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
 
 ```{r}
 #| label: mcmc-si
@@ -1048,6 +1120,10 @@ plot.ts(run$sigma[,1,], main = "", col = "#FF00FF", xlab = "s", cex.lab = 2, cex
 
 ## MCMC convergence for $\boldsymbol\mu_0$
 
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
 ```{r}
 #| label: mcmc-mu
 #| warning: false
@@ -1058,6 +1134,10 @@ plot.ts(run$beta[,1,], main = "", col = "#FF00FF", xlab = "s", cex.lab = 2, cex.
 ```
 
 ## Posterior means for $\mathbf{A}$
+
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
 
 ```{r}
 #| label: mean-a
@@ -1073,6 +1153,10 @@ knitr::kable(mean_A, caption = "Posterior estimates for autoregressive parameter
 
 ## Posterior means for $\mathbf\Sigma$
 
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
 ```{r}
 #| label: mean-s
 #| warning: false
@@ -1087,6 +1171,10 @@ knitr::kable(mean_S, caption = "Posterior estimates for covariance", digits = 5)
 
 ## Posterior means for hyper-parameters
 
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
 ```{r}
 #| label: mean-h
 #| warning: false
@@ -1098,4 +1186,12 @@ knitr::kable(mean_h, caption = "Posterior estimates for hyper-parameters", digit
 ```
 
 
+## Australian Data Forecasting
 
+::: footer
+[Bayesian VARs](https://bayesian-econometrics-2023.github.io/be23-lecture7/)
+:::
+
+$$ $$
+
+[DOWMLOAD THE SCRIPT]()
