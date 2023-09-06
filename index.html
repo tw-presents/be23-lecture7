@@ -10,8 +10,8 @@
 <link href="index_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.3.361">
 
-  <meta name="author" content="Tomasz Woźniak">
-  <title>Lecture 7: Bayesian VARs</title>
+  <meta name="author" content="by Tomasz Woźniak">
+  <title>Lecture 7: Bayesian Vector Autoregressions</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -325,12 +325,12 @@
     <div class="slides">
 
 <section id="title-slide" data-background-color="#FF00FF" class="quarto-title-block center">
-  <h1 class="title">Lecture 7: Bayesian VARs</h1>
+  <h1 class="title">Lecture 7: Bayesian Vector Autoregressions</h1>
 
 <div class="quarto-title-authors">
 <div class="quarto-title-author">
 <div class="quarto-title-author-name">
-Tomasz Woźniak 
+by Tomasz Woźniak 
 </div>
 </div>
 </div>
@@ -341,6 +341,9 @@ Tomasz Woźniak
 <h3 id="vector-autoregressions">Vector Autoregressions</h3>
 <h3 id="three-useful-distributions">Three Useful Distributions</h3>
 <h3 id="bayesian-estimation">Bayesian Estimation</h3>
+<h3 id="minnesota-and-dummy-observations-prior">Minnesota and Dummy Observations Prior</h3>
+<h3 id="bayesian-estimation-for-hierarchical-prior">Bayesian Estimation for Hierarchical Prior</h3>
+<h3 id="bayesian-forecasting-using-vars">Bayesian Forecasting using VARs</h3>
 </section>
 <section id="vector-autoregressions-1" class="slide level2" data-background-color="#FF00FF">
 <h2>Vector Autoregressions</h2>
@@ -367,6 +370,7 @@ Tomasz Woźniak
 <li class="fragment">networks</li>
 <li class="fragment">structural</li>
 </ul></li>
+<li class="fragment">Proposed by <a href="https://doi.org/10.2307/1912017">Sims (1980)</a></li>
 </ul>
 </div>
 <div class="footer">
@@ -374,10 +378,10 @@ Tomasz Woźniak
 </div>
 </section>
 <section id="varp-model" class="slide level2">
-<h2>VAR(p) model</h2>
+<h2>VAR(p) Model</h2>
 <h3 id="model-equations.">Model equations.</h3>
 <p><span class="math display">\[\begin{align*}
-y_t &amp;= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \epsilon_t\\
+y_t &amp;= \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \boldsymbol\mu_0 + \epsilon_t\\
 \epsilon_t|Y_{t-1} &amp;\sim iidN\left(\mathbf{0}_N,\mathbf\Sigma\right)
 \end{align*}\]</span> for <span class="math inline">\(t=1,\dots,T\)</span></p>
 <div class="fragment">
@@ -385,8 +389,8 @@ y_t &amp;= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p
 <h3 id="notation.">Notation.</h3>
 <ul>
 <li><span class="math inline">\(y_t\)</span> is an <span class="math inline">\(N\times 1\)</span> vector of observations at time <span class="math inline">\(t\)</span></li>
-<li><span class="math inline">\(\boldsymbol\mu_0\)</span> - <span class="math inline">\(N\times 1\)</span> vector of constant terms</li>
 <li><span class="math inline">\(\mathbf{A}_i\)</span> - <span class="math inline">\(N\times N\)</span> matrix of autoregressive slope parameters</li>
+<li><span class="math inline">\(\boldsymbol\mu_0\)</span> - <span class="math inline">\(N\times 1\)</span> vector of constant terms</li>
 <li><span class="math inline">\(\epsilon_t\)</span> - <span class="math inline">\(N\times 1\)</span> vector of error terms - a multivariate white noise process</li>
 <li><span class="math inline">\(Y_{t-1}\)</span> - information set collecting observations on} <span class="math inline">\(y\)</span> up to time <span class="math inline">\(t-1\)</span></li>
 <li><span class="math inline">\(\mathbf\Sigma\)</span> - <span class="math inline">\(N\times N\)</span> covariance matrix of the error term</li>
@@ -397,15 +401,15 @@ y_t &amp;= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p
 </div>
 </section>
 <section id="a-bivariate-var2-model" class="slide level2">
-<h2>A bivariate VAR(2) model</h2>
+<h2>A Bivariate VAR(2) Model</h2>
 <p>Let the number of variable <span class="math inline">\(N=2\)</span> and the lag order <span class="math inline">\(p=2\)</span>.</p>
 <p>Then, the model equation is:</p>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 \begin{bmatrix} y_{1.t} \\ y_{2.t} \end{bmatrix}
-&amp;= \begin{bmatrix} \boldsymbol\mu_{0.1} \\ \boldsymbol\mu_{0.2} \end{bmatrix} + \begin{bmatrix} \mathbf{A}_{1.11} &amp; \mathbf{A}_{1.12} \\ \mathbf{A}_{1.21} &amp; \mathbf{A}_{1.22} \end{bmatrix}  \begin{bmatrix} y_{1.t-1} \\ y_{2.t-1} \end{bmatrix}
-+ \begin{bmatrix} \mathbf{A}_{2.11} &amp; \mathbf{A}_{2.12} \\ \mathbf{A}_{2.21} &amp; \mathbf{A}_{2.22}   \end{bmatrix} \begin{bmatrix} y_{1.t-2} \\ y_{2.t-2} \end{bmatrix} + \begin{bmatrix} \epsilon_{1.t} \\ \epsilon_{2.t}  \end{bmatrix}\\[2ex]
+&amp;= \begin{bmatrix} \mathbf{A}_{1.11} &amp; \mathbf{A}_{1.12} \\ \mathbf{A}_{1.21} &amp; \mathbf{A}_{1.22} \end{bmatrix}  \begin{bmatrix} y_{1.t-1} \\ y_{2.t-1} \end{bmatrix}
++ \begin{bmatrix} \mathbf{A}_{2.11} &amp; \mathbf{A}_{2.12} \\ \mathbf{A}_{2.21} &amp; \mathbf{A}_{2.22}   \end{bmatrix} \begin{bmatrix} y_{1.t-2} \\ y_{2.t-2} \end{bmatrix} + \begin{bmatrix} \boldsymbol\mu_{0.1} \\ \boldsymbol\mu_{0.2} \end{bmatrix} + \begin{bmatrix} \epsilon_{1.t} \\ \epsilon_{2.t}  \end{bmatrix}\\[2ex]
 \begin{bmatrix} \epsilon_{1.t} \\ \epsilon_{2.t}  \end{bmatrix} &amp;\Big|Y_{t-1} \sim iid N_2\left( \begin{bmatrix} 0\\ 0\end{bmatrix}, \begin{bmatrix}\boldsymbol\sigma_1^2 &amp; \boldsymbol\sigma_{12} \\ \boldsymbol\sigma_{12} &amp; \boldsymbol\sigma_2^2\end{bmatrix} \right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <div class="fragment">
 <h3 id="task">Task:</h3>
 <p>Perform the matrix multiplications and write out the equations for <span class="math inline">\(y_{1.t}\)</span> and <span class="math inline">\(y_{2.t}\)</span>.</p>
@@ -415,10 +419,10 @@ y_t &amp;= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p
 </div>
 </section>
 <section id="three-useful-distributions-1" class="slide level2" data-background-color="#FF00FF">
-<h2>Three useful distributions</h2>
+<h2>Three Useful Distributions</h2>
 </section>
 <section id="matrix-variate-normal-distribution" class="slide level2">
-<h2>Matrix-variate normal distribution</h2>
+<h2>Matrix-Variate Normal Distribution</h2>
 <p>A <span class="math inline">\(K\times N\)</span> matrix <span class="math inline">\(\mathbf{A}\)</span> is said to follow a <em>matrix-variate normal</em> distribution: <span class="math display">\[ \mathbf{A} \sim MN_{K\times N}\left( M, Q, P \right), \]</span> where</p>
 <ul>
 <li><span class="math inline">\(M\)</span> - a <span class="math inline">\(K\times N\)</span> matrix of the mean</li>
@@ -427,9 +431,9 @@ y_t &amp;= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p
 </ul>
 <p>if <span class="math inline">\(\text{vec}(\mathbf{A})\)</span> is multivariate normal: <span class="math display">\[ \text{vec}(\mathbf{A}) \sim N_{KN}\left( \text{vec}(M), Q\otimes P \right) \]</span></p>
 <h3 id="density-function.">Density function.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 MN_{K\times N}\left( M, Q, P \right) &amp;\propto \exp\left\{ -\frac{1}{2}\text{tr}\left[ Q^{-1}(\mathbf{A}-M)'P^{-1}(\mathbf{A}-M) \right] \right\}
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <ul>
 <li><span class="math inline">\(\text{tr}()\)</span> is a trace of a matrix - a sum of diagonal elements</li>
 </ul>
@@ -438,41 +442,40 @@ MN_{K\times N}\left( M, Q, P \right) &amp;\propto \exp\left\{ -\frac{1}{2}\text{
 </div>
 </section>
 <section id="inverse-wishart-distribution" class="slide level2">
-<h2>Inverse Wishart distribution</h2>
+<h2>Inverse Wishart Distribution</h2>
 <p>An <span class="math inline">\(N\times N\)</span> square symmetric and positive definite matrix <span class="math inline">\(\mathbf\Sigma\)</span> follows an <em>inverse Wishart</em> distribution: <span class="math display">\[ \mathbf\Sigma \sim IW_{N}\left( S, \nu \right) \]</span> where</p>
 <ul>
 <li><span class="math inline">\(S\)</span> is <span class="math inline">\(N\times N\)</span> positive definite symmetric matrix called the scale matrix</li>
 <li><span class="math inline">\(\nu \geq N\)</span> denotes degrees of freedom, if its density is given by:</li>
 </ul>
 <h3 id="density-function.-1">Density function.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 IW_{N}\left( S, \nu \right) \propto \text{det}(\mathbf\Sigma)^{-\frac{\nu+N+1}{2}}\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf\Sigma^{-1} S \right] \right\}
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <div class="footer">
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
 <section id="normal-inverse-wishart-distribution" class="slide level2">
-<h2>Normal-Inverse Wishart distribution</h2>
-<p><span class="math display">\[\begin{align*}
+<h2>Normal-Inverse Wishart Distribution</h2>
+<span class="math display">\[\begin{align*}
 \mathbf{A}|\mathbf\Sigma &amp;\sim MN_{K\times N}\left( M, \mathbf\Sigma, P \right)\\
 \mathbf\Sigma &amp;\sim IW_{N}\left( S, \nu \right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <p>then the joint distribution of <span class="math inline">\((\mathbf{A},\mathbf\Sigma)\)</span> is <em>normal-inverse Wishart</em> <span class="math display">\[
 p(\mathbf{A},\mathbf\Sigma) = NIW_{K\times N}\left( M,P,S,\nu\right)
 \]</span></p>
 <h3 id="density-function.-2">Density function.</h3>
-<p><span class="math display">\[\begin{align*}
-NIW_{K\times N}\left( M,P,S,\nu\right) \propto &amp;\text{det}(\mathbf{\Sigma})^{-(\nu+N+K+1)/2}\\
-&amp;\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1} (\mathbf{A}-M)'P^{-1}(\mathbf{A}-M) \right] \right\}\\
-&amp;\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1} S \right] \right\}
-\end{align*}\]</span></p>
+<span class="math display">\[\begin{align*}
+NIW_{K\times N}\left( M,P,S,\nu\right) \propto &amp;\text{det}(\mathbf{\Sigma})^{-(\nu+N+K+1)/2}\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1} S \right] \right\}\\
+&amp;\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1} (\mathbf{A}-M)'P^{-1}(\mathbf{A}-M) \right] \right\}
+\end{align*}\]</span>
 <div class="footer">
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
 <section id="example-error-term-distribution" class="slide level2">
-<h2>Example: error term distribution</h2>
+<h2>Example: Error Term Distribution</h2>
 <p>The model assumptions state: <span class="math display">\[\begin{align*}
 \epsilon_t|Y_{t-1} &amp;\sim iidN_N\left(\mathbf{0}_N,\mathbf\Sigma\right)
 \end{align*}\]</span></p>
@@ -492,8 +495,8 @@ E|X &amp;\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\righ
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
-<section id="example-a-univariate-inverse-wishart-distribution" class="slide level2">
-<h2>Example: a univariate <em>inverse Wishart</em> distribution</h2>
+<section id="example-univariate-inverse-wishart-distribution" class="slide level2">
+<h2>Example: Univariate <em>Inverse Wishart</em> Distribution</h2>
 <p>The <em>inverse Wishart</em> density function is proportional to: <span class="math display">\[\begin{align*}
 \text{det}(\mathbf\Sigma)^{-\frac{\nu+N+1}{2}}\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf\Sigma^{-1} S \right] \right\}
 \end{align*}\]</span></p>
@@ -518,79 +521,79 @@ E|X &amp;\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\righ
 <h2>Bayesian Estimation</h2>
 </section>
 <section id="the-model-in-matrix-notation" class="slide level2">
-<h2>The model in matrix notation</h2>
+<h2>The model in Matrix Notation</h2>
 <h3 id="varp-model.">VAR(p) model.</h3>
-<p><span class="math display">\[\begin{align*}
-y_t &amp;= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \epsilon_t\\
+<span class="math display">\[\begin{align*}
+y_t &amp;= \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \boldsymbol\mu_0 + \epsilon_t\\
 \epsilon_t|Y_{t-1} &amp;\sim iidN_N\left(\mathbf{0}_N,\mathbf\Sigma\right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <h3 id="matrix-notation.">Matrix notation.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 Y &amp;= X\mathbf{A} + E\\
 E|X &amp;\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <div class="fragment fade-out">
 <p><span class="math display">\[
-\underset{(K\times N)}{\mathbf{A}}=\begin{bmatrix} \boldsymbol\mu_0'\\ \mathbf{A}_1'\\ \vdots \\ \mathbf{A}_p' \end{bmatrix} \quad
+\underset{(K\times N)}{\mathbf{A}}=\begin{bmatrix} \mathbf{A}_1'\\ \vdots \\ \mathbf{A}_p' \\ \boldsymbol\mu_0' \end{bmatrix} \quad
 \underset{(T\times N)}{Y}= \begin{bmatrix}y_1' \\ y_2'\\ \vdots \\ y_T'\end{bmatrix} \quad
-\underset{(K\times1)}{x_t}=\begin{bmatrix} 1\\ y_{t-1}\\ \vdots \\ y_{t-p} \end{bmatrix}\quad
+\underset{(K\times1)}{x_t}=\begin{bmatrix} y_{t-1}\\ \vdots \\ y_{t-p}\\ 1 \end{bmatrix}\quad
 \underset{(T\times K)}{X}= \begin{bmatrix}x_1' \\ x_2' \\ \vdots \\ x_{T}'\end{bmatrix} \quad
 \underset{(T\times N)}{E}= \begin{bmatrix}\epsilon_1' \\ \epsilon_2' \\ \vdots \\ \epsilon_{T}'\end{bmatrix}
-\]</span> where <span class="math inline">\(K=1+pN\)</span></p>
+\]</span> where <span class="math inline">\(K=pN+1\)</span></p>
 </div>
 <div class="footer">
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
-<section id="likelihood-function-as-predictive-density" class="slide level2">
-<h2>Likelihood Function as predictive density</h2>
+<section id="the-model-as-predictive-density" class="slide level2">
+<h2>The model as Predictive Density</h2>
 <h3 id="var-model.">VAR model.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 Y &amp;= X\mathbf{A} +E\\
 E|X &amp;\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <h3 id="predictive-density.">Predictive density.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 Y|X,\mathbf{A}, \mathbf{\Sigma} &amp;\sim MN_{T\times N}\left(X\mathbf{A},\mathbf{\Sigma},I_T\right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <div class="footer">
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
 <section id="likelihood-function" class="slide level2">
-<h2>Likelihood function</h2>
+<h2>Likelihood Function</h2>
 <h3 id="predictive-density.-1">Predictive density.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 Y|X,\mathbf{A}, \mathbf{\Sigma} &amp;\sim MN_{T\times N}\left(X\mathbf{A},\mathbf{\Sigma},I_T\right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <h3 id="likelihood-function.">Likelihood function.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 L\left(\mathbf{A},\mathbf{\Sigma}|Y,X\right)&amp;\propto\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(Y-X\mathbf{A})'(Y-X\mathbf{A})\right]\right\}
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <div class="footer">
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
-<section id="likelihood-function-as-niw." class="slide level2">
-<h2>Likelihood function as NIW.</h2>
+<section id="likelihood-function-as-niw" class="slide level2">
+<h2>Likelihood Function as NIW</h2>
 <p>Define the MLE: <span class="math inline">\(\widehat{A}=(X'X)^{-1}X'Y\)</span></p>
 <p>Perform simple transformation of the likelihood</p>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 L\left(\mathbf{A},\mathbf{\Sigma}|Y,X\right)&amp;\propto\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(Y-X\mathbf{A})'(Y-X\mathbf{A})\right]\right\}\\
 &amp;=\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\\
 &amp;\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(\mathbf{A}-\widehat{A})'X'X(\mathbf{A}-\widehat{A}) \right] \right\}\\
 &amp;\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(Y-X\widehat{A})'(Y-X\widehat{A}) \right] \right\}
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <p>Under the likelihood, <span class="math inline">\((\mathbf{A},\mathbf{\Sigma})\)</span> are <em>normal-inverse Wishart</em> distributed:</p>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 L\left( \mathbf{A},\mathbf{\Sigma}|Y,X \right) &amp;= NIW_{K\times N}\left(\widehat{A},(X'X)^{-1},(Y-X\widehat{A})'(Y-X\widehat{A}), T-N-K-1 \right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <div class="footer">
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
 <section id="prior-distribution" class="slide level2">
-<h2>Prior distribution</h2>
+<h2>Prior Distribution</h2>
 <h3 id="construction.">Construction.</h3>
 <p>A natural-conjugate prior leads to joint posterior distribution for <span class="math inline">\((\mathbf{A},\mathbf{\Sigma})\)</span> of the same form <span class="math display">\[\begin{align*}
 p\left( \mathbf{A}, \mathbf{\Sigma} \right) &amp;= p\left( \mathbf{A}| \mathbf{\Sigma} \right)p\left( \mathbf{\Sigma} \right)\\
@@ -598,52 +601,262 @@ p\left( \mathbf{A}, \mathbf{\Sigma} \right) &amp;= p\left( \mathbf{A}| \mathbf{\
 \mathbf{\Sigma} &amp;\sim IW_N\left( \underline{S}, \underline{\nu} \right)
 \end{align*}\]</span></p>
 <h3 id="kernel.">Kernel.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 p\left( \mathbf{A},\mathbf{\Sigma} \right)
 &amp;\propto \text{det}(\mathbf{\Sigma})^{-\frac{N+K+\underline{\nu}+1}{2}}\\
 &amp;\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\underline{A})'\underline{V}^{-1}(\mathbf{A}-\underline{A}) \right] \right\}\\
 &amp;\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}\underline{S} \right] \right\}
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <div class="footer">
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
 <section id="posterior-distribution" class="slide level2">
-<h2>Posterior distribution</h2>
+<h2>Posterior Distribution</h2>
 <h3 id="bayes-rule.">Bayes Rule.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 p\left( \mathbf{A}, \mathbf{\Sigma}|Y,X \right) &amp;\propto L(\mathbf{A},\mathbf{\Sigma}|Y,X)p\left( \mathbf{A}, \mathbf{\Sigma} \right)\\
 &amp;= L(\mathbf{A},\mathbf{\Sigma}|Y,X)p\left( \mathbf{A}| \mathbf{\Sigma} \right)p\left( \mathbf{\Sigma} \right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <h3 id="kernel.-1">Kernel.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 p\left( \mathbf{A},\mathbf{\Sigma} |Y,X\right)
 &amp;\propto  \text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(Y-X\mathbf{A})'(Y-X\mathbf{A})\right]\right\}\\
 &amp; \quad\times\text{det}(\mathbf{\Sigma})^{-\frac{N+K+\underline{\nu}+1}{2}}\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}\underline{S} \right] \right\}\\
 &amp;\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\underline{A})'\underline{V}^{-1}(\mathbf{A}-\underline{A}) \right] \right\}
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <div class="footer">
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
 </section>
 <section id="joint-posterior-distribution" class="slide level2">
-<h2>Joint posterior distribution</h2>
+<h2>Joint Posterior Distribution</h2>
 <h3 id="conditional-and-marginal.">Conditional and marginal.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 p\left( \mathbf{A}, \mathbf{\Sigma}|Y,X \right) &amp;= p(\mathbf{A}|Y,X,\mathbf{\Sigma})p\left( \mathbf{\Sigma}|Y,X \right)\\[2ex]
 p(\mathbf{A}|Y,X,\mathbf{\Sigma}) &amp;= MN_{K\times N}\left( \overline{A},\mathbf{\Sigma},\overline{V} \right)\\
 p(\mathbf{\Sigma}|Y,X) &amp;= IW_N\left( \overline{S}, \overline{\nu} \right)
-\end{align*}\]</span></p>
+\end{align*}\]</span>
 <h3 id="posterior-parameters.">Posterior parameters.</h3>
-<p><span class="math display">\[\begin{align*}
+<span class="math display">\[\begin{align*}
 \overline{V}&amp;= \left( X'X + \underline{V}^{-1}\right)^{-1} \\
 \overline{A}&amp;= \overline{V}\left( X'Y + \underline{V}^{-1}\underline{A} \right)\\
 \overline{\nu}&amp;= T+\underline{\nu}\\
 \overline{S}&amp;= \underline{S}+Y'Y + \underline{A}'\underline{V}^{-1}\underline{A} - \overline{A}'\overline{V}^{-1}\overline{A}
+\end{align*}\]</span>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="posterior-mean-of-mathbfa" class="slide level2">
+<h2>Posterior Mean of <span class="math inline">\(\mathbf{A}\)</span></h2>
+<p>Posterior mean of matrix <span class="math inline">\(\mathbf{A}\)</span> is: <span class="math display">\[\begin{align*}
+\overline{A} &amp;= \overline{V}\left( X'Y + \underline{V}^{-1}\underline{A} \right)\\[2ex]
+&amp;= \overline{V}\left( X'X\widehat{A} + \underline{V}^{-1}\underline{A} \right)\\[2ex]
+&amp;= \overline{V} X'X\widehat{A} + \overline{V}\underline{V}^{-1}\underline{A}
+\end{align*}\]</span> <font color="FF00FF">a linear combination</font> of the MLE <span class="math inline">\(\widehat{A}\)</span> and the prior mean <span class="math inline">\(\underline{A}\)</span></p>
+<p>Note that: <span class="math display">\[
+\overline{V} X'X + \overline{V}\underline{V}^{-1} = \overline{V} ( X'X + \underline{V}^{-1}) = I_K
+\]</span></p>
+<p><a href="https://rpsychologist.com/d3/bayes/" data-preview-link="true">Play with the posterior in an interactive graph</a></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="marginal-data-density" class="slide level2">
+<h2>Marginal Data Density</h2>
+<p>According to <em>Bayes Rule</em>, the kernel of the posterior is normalised by the <em>Marginal Data Density</em> <span class="math inline">\(p(data)\)</span>:</p>
+<p><span class="math display">\[
+p\left( \mathbf{A}, \mathbf{\Sigma}| data \right) = \frac{L(\mathbf{A},\mathbf{\Sigma}| data)p\left( \mathbf{A}, \mathbf{\Sigma} \right)}{p(data)}
+\]</span></p>
+<p>For <em>Bayesian VARs</em> the posterior is known <span class="math display">\[
+p\left( \mathbf{A}, \mathbf{\Sigma}| data \right) = MNIW\left(\overline{A},\overline{V}, \overline{S}, \overline{\nu} \right)
+\]</span></p>
+<p>and so is the analytical formula for the <em>MDD</em>: <span class="math display">\[p(data)\]</span></p>
+<p>This can be used to our advantage!</p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="minnesota-and-dummy-observations-prior-1" class="slide level2" data-background-color="#FF00FF">
+<h2>Minnesota and Dummy Observations Prior</h2>
+</section>
+<section id="minnesota-prior" class="slide level2">
+<h2>Minnesota Prior</h2>
+<p><a href="https://doi.org/10.1080/07474938408800053">Sims, Litterman, Doan (1984)</a> proposed an interpretable way of setting the hyper-parameters on the NIW prior <span class="math inline">\(\underline{A}\)</span>, <span class="math inline">\(\underline{V}\)</span>, <span class="math inline">\(\underline{S}\)</span>, and <span class="math inline">\(\underline{\nu}\)</span> for macroeconomic data.</p>
+<div class="fragment">
+<p><span class="math display">\[    \]</span> The prior reflects the following stylised facts about macro time series:</p>
+<ul>
+<li>the data are unit-root non-stationary</li>
+<li>the effect of more lagged variables should be smaller and smaller</li>
+<li>the effect of other variables lags should be less than that of own lags</li>
+</ul>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</div>
+</section>
+<section id="minnesota-prior-1" class="slide level2">
+<h2>Minnesota Prior</h2>
+<h3 id="inverse-wishart-prior.">Inverse-Wishart prior.</h3>
+<span class="math display">\[\begin{align*}
+\mathbf{\Sigma} &amp;\sim IW_N\left( \underline{S}, \underline{\nu} \right)
+\end{align*}\]</span>
+<p>Set</p>
+<span class="math display">\[\begin{align*}
+\underline{S} &amp;= \begin{bmatrix}
+\psi_1 &amp;0 &amp;\dots &amp; 0 \\
+0 &amp; \psi_2 &amp;\dots &amp; 0\\
+\vdots &amp;\vdots&amp;\ddots&amp; \vdots\\
+0&amp;0&amp;\dots&amp;\psi_N
+\end{bmatrix}\\[2ex]
+\underline{\nu}&amp;= N+2
+\end{align*}\]</span>
+<h3 id="hyper-parameters.">Hyper-parameters.</h3>
+<p><span class="math inline">\(\psi =(\psi_1, \dots, \psi_N)\)</span> have to be chosen (or estimated)</p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="minnesota-prior-2" class="slide level2">
+<h2>Minnesota Prior</h2>
+<h3 id="matrix-variate-normal-prior.">Matrix-Variate Normal prior.</h3>
+<span class="math display">\[\begin{align*}
+\mathbf{A}|\mathbf{\Sigma} &amp;\sim MN_{K\times N}\left( \underline{A},\mathbf{\Sigma},\underline{V} \right)
+\end{align*}\]</span>
+<p>Set <span class="math display">\[\begin{align*}
+\underline{A} &amp;= \begin{bmatrix} I_N \\ \mathbf{0}_{((p-1)N +1)\times N}\end{bmatrix}&amp;
+\underline{V}_{ij} &amp;= \left\{\begin{array} (\lambda ^ 2 / (\psi_k l^2) &amp;\text{ for }i=j,\text{ and } i\neq pN+1 \\
+\lambda^2 &amp;\text{ for }i=j,\text{ and } i= pN+1 \\
+0&amp;\text{ for } i\neq j
+\end{array}\right.
+\end{align*}\]</span></p>
+<p>for <span class="math inline">\(\quad l = 1+\text{floor}((i-1)/N) \quad\text{and }\quad k = i - (l-1)N\)</span></p>
+<h3 id="hyper-parameters.-1">Hyper-parameters.</h3>
+<p><span class="math inline">\(\lambda^2\)</span> has to be chosen (or estimated)</p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="dummy-observations-prior" class="slide level2">
+<h2>Dummy Observations Prior</h2>
+<h3 id="idea.">Idea.</h3>
+<ol type="1">
+<li>Generate artificial data matrices with <span class="math inline">\(T_d\)</span> rows <span class="math inline">\(Y^*\)</span> and <span class="math inline">\(X^*\)</span></li>
+<li>Append them to the original data matrices <span class="math inline">\(Y\)</span> and <span class="math inline">\(X\)</span> respectively.</li>
+</ol>
+<div class="fragment">
+<!-- -->
+<h3 id="implied-prior-distribution.">Implied prior distribution.</h3>
+<p>Use Bayes Rule to derive the joint prior of <span class="math inline">\((\mathbf{A},\mathbf\Sigma)\)</span> given <span class="math inline">\(Y^*\)</span> and <span class="math inline">\(X^*\)</span>.</p>
+<p>It is given by the MNIW distribution:</p>
+<p><span class="math display">\[\begin{align*}
+p\left( \mathbf{A}, \mathbf{\Sigma}|Y^*,X^* \right) &amp;= MNIV_{K\times N}\left( \underline{A}^*,\underline{V}^*, \underline{S}^*, \underline{\nu}^* \right)
+\end{align*}\]</span> <span class="math display">\[\begin{align*}
+\underline{V}^*&amp;= \left( X^{*\prime}X^* + \underline{V}^{-1}\right)^{-1} &amp; \underline{A}^*&amp;= \underline{V}^*\left( X^{*\prime}Y^* + \underline{V}^{-1}\underline{A} \right)\\
+\underline{\nu}^*&amp;= T_d+\underline{\nu} &amp; \underline{S}^*&amp;= \underline{S}+Y^{*\prime}Y^* + \underline{A}'\underline{V}^{-1}\underline{A} - \underline{A}^{*\prime}\underline{V}^{*-1}\underline{A}^*
+\end{align*}\]</span></p>
+</div>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="dummy-observations-prior-1" class="slide level2">
+<h2>Dummy Observations Prior</h2>
+<p>Let a <span class="math inline">\(p\times N\)</span> matrix <span class="math inline">\(Y_0\)</span> denote the initial observations, that is, the first <span class="math inline">\(p\)</span> observations of the available time series.</p>
+<p>Let an <span class="math inline">\(N\)</span>-vector <span class="math inline">\(\bar{Y}_0\)</span> denote its columns’ means.</p>
+<div class="fragment">
+<!-- -->
+<h3 id="sum-of-coefficients-prior.">Sum-of-coefficients prior.</h3>
+<p>Generate additional <span class="math inline">\(N\)</span> rows by <span class="math display">\[
+Y^+ = \text{diag}\left(\frac{\bar{Y}_0}{\mu}\right) \quad\text{ and }\quad X^+ = \begin{bmatrix}\mathbf{0}_N &amp; Y^+ &amp; \dots &amp; Y^+ \end{bmatrix}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(\mu\)</span> is a hyper-parameter to be chosen (or estimated)</li>
+<li>if <span class="math inline">\(\mu \rightarrow 0\)</span> the prior implies the presence of a unit root in each equation and rules out cointegration</li>
+<li>if <span class="math inline">\(\mu \rightarrow\infty\)</span> the prior becomes uninformative</li>
+</ul>
+</div>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="dummy-observations-prior-2" class="slide level2">
+<h2>Dummy Observations Prior</h2>
+<h3 id="dummy-initial-observation-prior.">Dummy-initial-observation prior.</h3>
+<p>Generate an additional row by <span class="math display">\[
+Y^{++} = \frac{\bar{Y}_0'}{\delta} \quad\text{ and }\quad X^{++} = \begin{bmatrix}\frac{1}{\delta} &amp; Y^{++} &amp; \dots &amp; Y^{++} \end{bmatrix}
+\]</span></p>
+<ul>
+<li>hyper-parameter <span class="math inline">\(\delta\)</span> is to be chosen (or estimated)</li>
+<li>if <span class="math inline">\(\delta \rightarrow 0\)</span> all the variables of the VAR are forced to be at their unconditional mean, or the system is characterized by the presence of an unspecified number of unit roots without drift (cointegration)</li>
+<li>if <span class="math inline">\(\delta \rightarrow\infty\)</span> the prior becomes uninformative</li>
+</ul>
+<div class="fragment">
+<!-- -->
+<h3 id="combining-dummy-observations.">Combining dummy observations.</h3>
+<p><span class="math display">\[
+Y^* = \begin{bmatrix}Y^+ \\ Y^{++} \end{bmatrix}\quad\text{ and }\quad
+X^* = \begin{bmatrix}X^+ \\ X^{++} \end{bmatrix}
+\]</span></p>
+</div>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="bayesian-estimation-for-hierarchical-prior-1" class="slide level2" data-background-color="#FF00FF">
+<h2>Bayesian Estimation for Hierarchical Prior</h2>
+</section>
+<section id="bayesian-estimation-for-hierarchical-prior-2" class="slide level2">
+<h2>Bayesian Estimation for Hierarchical Prior</h2>
+<p>Hyper-parameters <span class="math inline">\(\psi\)</span>, <span class="math inline">\(\lambda\)</span>, <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\delta\)</span> can be fixed to values chosen by the econometrician.</p>
+<h3 id="hierarcical-prior.">Hierarcical prior.</h3>
+<p>A better idea is to assume priors for these hyper-parameters and estimate them as in <a href="https://doi.org/10.1162/REST_a_00483">Giannone, Lenza, Primiceri (2015)</a>.</p>
+<p>Extend the existing prior to: <span class="math display">\[\begin{align*}
+p\left( \mathbf{A}, \mathbf{\Sigma}|Y^*,X^*,\psi,\lambda,\mu,\delta \right) &amp;= MNIV_{K\times N}\left( \underline{A}^*,\underline{V}^*, \underline{S}^*, \underline{\nu}^* \right)
+\end{align*}\]</span> And specify: <span class="math display">\[\begin{align*}
+\psi_n &amp;\sim IG\left(0.02^2, 0.02^2\right)\\
+\lambda &amp;\sim G\left(0.2,2\right)\\
+\mu &amp;\sim G\left(1,2\right)\\
+\delta &amp;\sim G\left(1,2\right)
 \end{align*}\]</span></p>
 <div class="footer">
 <p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
 </div>
+</section>
+<section id="bayesian-estimation-for-hierarchical-prior-3" class="slide level2">
+<h2>Bayesian Estimation for Hierarchical Prior</h2>
+<p><a href="https://doi.org/10.1162/REST_a_00483">Giannone, Lenza, Primiceri (2015)</a> propose the following estimation procedure:</p>
+<h4 id="step-1-estimate-psilambdamudelta-using-a-random-walk-metropolis-hastings-sampler">Step 1: Estimate <span class="math inline">\((\psi,\lambda,\mu,\delta)\)</span> using a random-walk Metropolis-Hastings sampler</h4>
+<ul>
+<li>Sample these hyper-parameters marginally on <span class="math inline">\((\mathbf{A},\mathbf\Sigma)\)</span></li>
+<li>extend the conditioning of <em>Marginal Data Density</em>: <span class="math display">\[ p(data|\psi,\lambda,\mu,\delta)\]</span></li>
+<li>apply Bayes Rule to obtain the kernel of the posterior:</li>
+</ul>
+<p><span class="math display">\[ p(\psi,\lambda,\mu,\delta|data) \propto p(\psi,\lambda,\mu,\delta)p(data|\psi,\lambda,\mu,\delta)\]</span> - Use an <span class="math inline">\((N+3)\)</span>-variate Student-t distribution as the candidate generating density</p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="bayesian-estimation-for-hierarchical-prior-4" class="slide level2">
+<h2>Bayesian Estimation for Hierarchical Prior</h2>
+<h4 id="step-2-for-each-draw-of-psilambdamudelta-sample-the-corresponding-draw-of-mathbfamathbfsigma">Step 2: For each draw of <span class="math inline">\((\psi,\lambda,\mu,\delta)\)</span> sample the corresponding draw of <span class="math inline">\((\mathbf{A},\mathbf{\Sigma})\)</span></h4>
+<p>Use the MNIW posterior derived for the implied prior:</p>
+<span class="math display">\[\begin{align*}
+p\left( \mathbf{A}, \mathbf{\Sigma}|Y,X, Y^*,X^* \right) &amp;= MNIW_{K\times N}\left( \overline{A}^*,\overline{V}^*,\overline{S}^*, \overline{\nu}^* \right)\\[2ex]
+\overline{V}^*&amp;= \left( X'X + \underline{V}^{*-1}\right)^{-1} \\
+\overline{A}^*&amp;= \overline{V}^*\left( X'Y + \underline{V}^{*-1}\underline{A}^* \right)\\
+\overline{\nu}^*&amp;= T+\underline{\nu}^*\\
+\overline{S}^*&amp;= \underline{S}^*+Y'Y + \underline{A}^{*\prime}\underline{V}^{*-1}\underline{A}^* - \overline{A}^{*\prime}\overline{V}^{*-1}\overline{A}^*
+\end{align*}\]</span>
+<h3 id="r-implementation.">R implementation.</h3>
+<p>Package <a href="https://cran.r-project.org/web/packages/BVAR/index.html"><strong>BVAR</strong></a> by <a href="https://doi.org/10.1162%2FREST_a_00483">Kuschnig, Vashold (2021)</a> implements this algorithm.</p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="bayesian-forecasting-using-vars-1" class="slide level2" data-background-color="#FF00FF">
+<h2>Bayesian Forecasting using VARs</h2>
 <div class="footer footer-default">
 
 </div>
