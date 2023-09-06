@@ -336,10 +336,65 @@ Tomasz Woźniak
 </div>
 
 </section>
-<section id="vector-autoregressions" class="slide level2" data-background-color="#FF00FF">
+<section id="section" class="slide level2" data-background-color="#FF00FF">
+<h2></h2>
+<h3 id="vector-autoregressions">Vector Autoregressions</h3>
+<h3 id="three-useful-distributions">Three Useful Distributions</h3>
+<h3 id="bayesian-estimation">Bayesian Estimation</h3>
+</section>
+<section id="vector-autoregressions-1" class="slide level2" data-background-color="#FF00FF">
 <h2>Vector Autoregressions</h2>
 </section>
-<section id="vector-autoregressions-1" class="slide level2">
+<section id="vector-autoregressions-2" class="slide level2">
+<h2>Vector Autoregressions</h2>
+<!-- ::: incremental -->
+<ul>
+<li>go-to models for forecasting</li>
+<li>simple: <em>linear and Gaussian</em></li>
+<li>extendible: <em>featuring many variations in specification</em></li>
+<li><!-- ::: --></li>
+</ul>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="varp-model" class="slide level2">
+<h2>VAR(p) model</h2>
+<p><span class="math display">\[\begin{align*}
+y_t &amp;= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \epsilon_t\\
+\epsilon_t|Y_{t-1} &amp;\sim iidN\left(\mathbf{0}_N,\mathbf\Sigma\right)
+\end{align*}\]</span> for <span class="math inline">\(t=1,\dots,T\)</span>, where :</p>
+<ul>
+<li><span class="math inline">\(y_t\)</span> is an <span class="math inline">\(N\times 1\)</span> vector of observations at time <span class="math inline">\(t\)</span></li>
+<li><span class="math inline">\(\boldsymbol\mu_0\)</span> - <span class="math inline">\(N\times 1\)</span> vector of constant terms</li>
+<li><span class="math inline">\(\mathbf{A}_i\)</span> - <span class="math inline">\(N\times N\)</span> matrix of autoregressive slope parameters</li>
+<li><span class="math inline">\(\epsilon_t\)</span> - <span class="math inline">\(N\times 1\)</span> vector of error terms - a multivariate white noise process</li>
+<li><span class="math inline">\(Y_{t-1}\)</span> - information set collecting observations on} <span class="math inline">\(y\)</span> up to time <span class="math inline">\(t-1\)</span></li>
+<li><span class="math inline">\(\mathbf\Sigma\)</span> - <span class="math inline">\(N\times N\)</span> covariance matrix of the error term</li>
+</ul>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</section>
+<section id="a-bivariate-var2-model" class="slide level2">
+<h2>A bivariate VAR(2) model</h2>
+<p>Let the number of variable <span class="math inline">\(N=2\)</span> and the lag order <span class="math inline">\(p=2\)</span>.</p>
+<p>Then, the model equation is:</p>
+<p><span class="math display">\[\begin{align*}
+\begin{bmatrix} y_{1.t} \\ y_{2.t} \end{bmatrix}
+&amp;= \begin{bmatrix} \boldsymbol\mu_{0.1} \\ \boldsymbol\mu_{0.2} \end{bmatrix} + \begin{bmatrix} \mathbf{A}_{1.11} &amp; \mathbf{A}_{1.12} \\ \mathbf{A}_{1.21} &amp; \mathbf{A}_{1.22} \end{bmatrix}  \begin{bmatrix} y_{1.t-1} \\ y_{2.t-1} \end{bmatrix}
++ \begin{bmatrix} \mathbf{A}_{2.11} &amp; \mathbf{A}_{2.12} \\ \mathbf{A}_{2.21} &amp; \mathbf{A}_{2.22}   \end{bmatrix} \begin{bmatrix} y_{1.t-2} \\ y_{2.t-2} \end{bmatrix} + \begin{bmatrix} \epsilon_{1.t} \\ \epsilon_{2.t}  \end{bmatrix}\\[2ex]
+\begin{bmatrix} \epsilon_{1.t} \\ \epsilon_{2.t}  \end{bmatrix} &amp;\Big|Y_{t-1} \sim iid N_2\left( \begin{bmatrix} 0\\ 0\end{bmatrix}, \begin{bmatrix}\boldsymbol\sigma_1^2 &amp; \boldsymbol\sigma_{12} \\ \boldsymbol\sigma_{12} &amp; \boldsymbol\sigma_2^2\end{bmatrix} \right)
+\end{align*}\]</span></p>
+<div class="fragment">
+<h3 id="task">Task:</h3>
+<p>Perform the matrix multiplications and write out the equations for <span class="math inline">\(y_{1.t}\)</span> and <span class="math inline">\(y_{2.t}\)</span>.</p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+</div>
+</section>
+<section id="vector-autoregressions-3" class="slide level2">
 <h2>Vector Autoregressions</h2>
 <h3 id="varp-model.">VAR(p) model.</h3>
 <p><span class="math display">\[\begin{align*}
@@ -358,8 +413,11 @@ E|X &amp;\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\righ
 \underset{(T\times K)}{X}= \begin{bmatrix}x_1' \\ x_2' \\ \vdots \\ x_{T}'\end{bmatrix} \quad
 \underset{(T\times N)}{E}= \begin{bmatrix}\epsilon_1' \\ \epsilon_2' \\ \vdots \\ \epsilon_{T}'\end{bmatrix}
 \]</span> where <span class="math inline">\(K=1+pN\)</span></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
-<section id="three-useful-distributions" class="slide level2" data-background-color="#FF00FF">
+<section id="three-useful-distributions-1" class="slide level2" data-background-color="#FF00FF">
 <h2>Three useful distributions</h2>
 </section>
 <section id="matrix-variate-normal-distribution" class="slide level2">
@@ -378,6 +436,9 @@ MN_{K\times N}\left( M, Q, P \right) &amp;\propto \exp\left\{ -\frac{1}{2}\text{
 <ul>
 <li><span class="math inline">\(\text{tr}()\)</span> is a trace of a matrix - a sum of diagonal elements</li>
 </ul>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
 <section id="inverse-wishart-distribution" class="slide level2">
 <h2>Inverse Wishart distribution</h2>
@@ -392,6 +453,9 @@ IW_{N}\left( S, \nu \right) \propto \text{det}(\mathbf\Sigma)^{-\frac{\nu+N+1}{2
 \end{align*}\]</span></p>
 <h3 id="moments.">Moments.</h3>
 <p><span class="math display">\[ \mathbb{E}[\mathbf\Sigma] = \frac{1}{\nu-N-1} S \qquad\text{ for} \nu&gt;N+1\]</span></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
 <section id="normal-inverse-wishart-distribution" class="slide level2">
 <h2>Normal-Inverse Wishart distribution</h2>
@@ -408,9 +472,12 @@ NIW_{K\times N}\left( M,P,S,\nu\right) \propto &amp;\text{det}(\mathbf{\Sigma})^
 &amp;\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1} (\mathbf{A}-M)'P^{-1}(\mathbf{A}-M) \right] \right\}\\
 &amp;\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1} S \right] \right\}
 \end{align*}\]</span></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
-<section id="likelihood-function" class="slide level2" data-background-color="#FF00FF">
-<h2>Likelihood Function</h2>
+<section id="bayesian-estimation-1" class="slide level2" data-background-color="#FF00FF">
+<h2>Bayesian Estimation</h2>
 </section>
 <section id="likelihood-function-as-predictive-density" class="slide level2">
 <h2>Likelihood Function as predictive density</h2>
@@ -423,8 +490,11 @@ E|X &amp;\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\righ
 <p><span class="math display">\[\begin{align*}
 Y|X,\mathbf{A}, \mathbf{\Sigma} &amp;\sim MN_{T\times N}\left(X\mathbf{A},\mathbf{\Sigma},I_T\right)
 \end{align*}\]</span></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
-<section id="likelihood-function-1" class="slide level2">
+<section id="likelihood-function" class="slide level2">
 <h2>Likelihood function</h2>
 <h3 id="predictive-density.-1">Predictive density.</h3>
 <p><span class="math display">\[\begin{align*}
@@ -437,6 +507,9 @@ L\left(\mathbf{A},\mathbf{\Sigma}|Y,X\right)&amp;\propto\text{det}(\mathbf{\Sigm
 &amp;\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(\mathbf{A}-\widehat{A})'X'X(\mathbf{A}-\widehat{A}) \right] \right\}\\
 &amp;\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(Y-X\widehat{A})'(Y-X\widehat{A}) \right] \right\}
 \end{align*}\]</span> where <span class="math inline">\(\widehat{A}=(X'X)^{-1}X'Y\)</span></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
 <section id="likelihood-function-as-niw." class="slide level2">
 <h2>Likelihood function as NIW.</h2>
@@ -444,14 +517,14 @@ L\left(\mathbf{A},\mathbf{\Sigma}|Y,X\right)&amp;\propto\text{det}(\mathbf{\Sigm
 <p><span class="math display">\[\begin{align*}
 L\left( \mathbf{A},\mathbf{\Sigma}|Y,X \right) &amp;= NIW_{K\times N}\left(\widehat{A},(X'X)^{-1},(Y-X\widehat{A})'(Y-X\widehat{A}), T-N-K-1 \right)
 \end{align*}\]</span></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
-<section id="prior-distribution" class="slide level2" data-background-color="#FF00FF">
+<section id="prior-distribution" class="slide level2">
 <h2>Prior distribution</h2>
-</section>
-<section id="natural-conjugate-prior-distribution" class="slide level2">
-<h2>Natural-conjugate prior distribution</h2>
 <h3 id="construction.">Construction.</h3>
-<p>Leads to joint posterior distribution for <span class="math inline">\((\mathbf{A},\mathbf{\Sigma})\)</span> of the same form <span class="math display">\[\begin{align*}
+<p>A natural-conjugate prior leads to joint posterior distribution for <span class="math inline">\((\mathbf{A},\mathbf{\Sigma})\)</span> of the same form <span class="math display">\[\begin{align*}
 p\left( \mathbf{A}, \mathbf{\Sigma} \right) &amp;= p\left( \mathbf{A}| \mathbf{\Sigma} \right)p\left( \mathbf{\Sigma} \right)\\
 \mathbf{A}|\mathbf{\Sigma} &amp;\sim MN_{K\times N}\left( \underline{A},\mathbf{\Sigma},\underline{V} \right)\\
 \mathbf{\Sigma} &amp;\sim IW_N\left( \underline{S}, \underline{\nu} \right)
@@ -463,11 +536,11 @@ p\left( \mathbf{A},\mathbf{\Sigma} \right)
 &amp;\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\underline{A})'\underline{V}^{-1}(\mathbf{A}-\underline{A}) \right] \right\}\\
 &amp;\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}\underline{S} \right] \right\}
 \end{align*}\]</span></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
-<section id="posterior-distribution" class="slide level2" data-background-color="#FF00FF">
-<h2>Posterior distribution</h2>
-</section>
-<section id="posterior-distribution-1" class="slide level2">
+<section id="posterior-distribution" class="slide level2">
 <h2>Posterior distribution</h2>
 <h3 id="bayes-rule.">Bayes Rule.</h3>
 <p><span class="math display">\[\begin{align*}
@@ -484,6 +557,9 @@ p\left( \mathbf{A},\mathbf{\Sigma} |Y,X\right)
 &amp;\qquad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\underline{A})'\underline{V}^{-1}(\mathbf{A}-\underline{A}) \right] \right\}\\
 &amp;\qquad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}\underline{S} \right] \right\},
 \end{align*}\]</span></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 </section>
 <section id="joint-posterior-distribution" class="slide level2">
 <h2>Joint posterior distribution</h2>
@@ -500,8 +576,11 @@ p(\mathbf{\Sigma}|Y,X) &amp;= IW_N\left( \overline{S}, \overline{\nu} \right)
 \overline{\nu}&amp;= T+\underline{\nu}\\
 \overline{S}&amp;= \underline{S}+Y'Y + \underline{A}'\underline{V}^{-1}\underline{A} - \overline{A}'\overline{V}^{-1}\overline{A}
 \end{align*}\]</span></p>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
 <div class="footer footer-default">
-<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Lecture 7: Bayesian VARs slides</a></p>
+
 </div>
 </section>
     </div>
@@ -532,14 +611,14 @@ p(\mathbf{\Sigma}|Y,X) &amp;= IW_N\left( \overline{S}, \overline{\nu} \right)
       Reveal.initialize({
 'controlsAuto': true,
 'previewLinksAuto': false,
-'smaller': true,
+'smaller': false,
 'pdfSeparateFragments': false,
 'autoAnimateEasing': "ease",
 'autoAnimateDuration': 1,
 'autoAnimateUnmatched': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'multiplex': {"secret":"16939610363352431340","id":"3a533e8672802f11","url":"https://reveal-multiplex.glitch.me/"},
-'smaller': true,
+'smaller': false,
  
         // Display controls in the bottom right corner
         controls: false,
