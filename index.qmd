@@ -45,7 +45,7 @@ $$ $$
 
 ### A Dedicated Reading [Woźniak (2016, AERev)]( https://doi.org/10.1111/1467-8462.12179)
 
-### **Quarto** [document template]() for your own Australian data forecasting
+### **Quarto** [document template](https://github.com/Bayesian-Econometrics-2023/be23-lecture7/blob/main/be23-AUdata.qmd) for your own Australian data forecasting
 
 ### GitHub [repo](https://github.com/Bayesian-Econometrics-2023/be23-lecture7) to reproduce the slides and results
 
@@ -1194,4 +1194,4 @@ knitr::kable(mean_h, caption = "Posterior estimates for hyper-parameters", digit
 
 $$ $$
 
-[DOWMLOAD THE SCRIPT]()
+[DOWMLOAD THE SCRIPT](https://github.com/Bayesian-Econometrics-2023/be23-lecture7/blob/main/be23-AUdata.qmd)
