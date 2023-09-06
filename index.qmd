@@ -1,0 +1,231 @@
+---
+title: "Lecture 7: Bayesian VARs"
+author: "Tomasz Woźniak"
+email: "tomasz.wozniak@unimelb.edu.au"
+title-slide-attributes:
+  data-background-color: "#FF00FF"
+format: 
+  revealjs: 
+    theme: [simple, theme.scss]
+    smaller: true
+    slide-number: c
+    multiplex: true
+---
+
+## Vector Autoregressions {background-color=#FF00FF}
+
+## Vector Autoregressions
+
+### VAR(p) model.
+\begin{align*}
+y_t &= \boldsymbol\mu_0 + \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \epsilon_t\\
+\epsilon_t|Y_{t-1} &\sim iidN_N\left(\mathbf{0}_N,\mathbf\Sigma\right)
+\end{align*}
+
+### Matrix notation.
+\begin{align*} 
+Y &= X\mathbf{A} + E\\
+E|X &\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\right)
+\end{align*} 
+
+$$ 
+\underset{(K\times N)}{\mathbf{A}}=\begin{bmatrix} \boldsymbol\mu_0'\\ \mathbf{A}_1'\\ \vdots \\ \mathbf{A}_p' \end{bmatrix} \quad
+\underset{(T\times N)}{Y}= \begin{bmatrix}y_1' \\ y_2'\\ \vdots \\ y_T'\end{bmatrix} \quad
+\underset{(K\times1)}{x_t}=\begin{bmatrix} 1\\ y_{t-1}\\ \vdots \\ y_{t-p} \end{bmatrix}\quad
+\underset{(T\times K)}{X}= \begin{bmatrix}x_1' \\ x_2' \\ \vdots \\ x_{T}'\end{bmatrix} \quad
+\underset{(T\times N)}{E}= \begin{bmatrix}\epsilon_1' \\ \epsilon_2' \\ \vdots \\ \epsilon_{T}'\end{bmatrix}
+$$
+where $K=1+pN$
+
+
+## Three useful distributions {background-color=#FF00FF}
+
+## Matrix-variate normal distribution
+
+A $K\times N$ matrix $\mathbf{A}$ is said to follow a *matrix-variate normal* distribution:
+$$ \mathbf{A} \sim MN_{K\times N}\left( M, Q, P \right), $$ 
+where 
+
+- $M$ - a $K\times N$ matrix of the mean
+- $Q$ - a $N\times N$ row-specific covariance matrix
+- $P$ - a $K\times K$ column-specific covariance matrix
+
+
+if $\text{vec}(\mathbf{A})$ is multivariate normal:
+$$ \text{vec}(\mathbf{A}) \sim N_{KN}\left( \text{vec}(M), Q\otimes P \right) $$
+
+### Density function.
+\begin{align*}
+MN_{K\times N}\left( M, Q, P \right) &\propto \exp\left\{ -\frac{1}{2}\text{tr}\left[ Q^{-1}(\mathbf{A}-M)'P^{-1}(\mathbf{A}-M) \right] \right\}
+\end{align*}
+
+- $\text{tr}()$ is a trace of a matrix - a sum of diagonal elements
+
+
+
+## Inverse Wishart distribution
+
+An $N\times N$ square symmetric and positive definite matrix $\mathbf\Sigma$ follows an *inverse Wishart* distribution:
+$$ \mathbf\Sigma \sim IW_{N}\left( S, \nu \right) $$ 
+where 
+
+- $S$ is $N\times N$ positive definite symmetric matrix called the scale matrix 
+- $\nu \geq N$ denotes degrees of freedom, if its density is given by:
+
+### Density function.
+
+\begin{align*}
+IW_{N}\left( S, \nu \right) \propto \text{det}(\mathbf\Sigma)^{-\frac{\nu+N+1}{2}}\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf\Sigma^{-1} S \right] \right\}
+\end{align*}
+
+### Moments.
+$$ \mathbb{E}[\mathbf\Sigma] = \frac{1}{\nu-N-1} S \qquad\text{ for} \nu>N+1$$
+
+
+## Normal-Inverse Wishart distribution
+
+\begin{align*}
+\mathbf{A}|\mathbf\Sigma &\sim MN_{K\times N}\left( M, \mathbf\Sigma, P \right)\\
+\mathbf\Sigma &\sim IW_{N}\left( S, \nu \right)
+\end{align*}
+
+then the joint distribution of $(\mathbf{A},\mathbf\Sigma)$ is *normal-inverse Wishart*
+$$
+p(\mathbf{A},\mathbf\Sigma) = NIW_{K\times N}\left( M,P,S,\nu\right)
+$$
+
+### Density function.
+
+\begin{align*}
+NIW_{K\times N}\left( M,P,S,\nu\right) \propto &\text{det}(\mathbf{\Sigma})^{-(\nu+N+K+1)/2}\\ 
+&\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1} (\mathbf{A}-M)'P^{-1}(\mathbf{A}-M) \right] \right\}\\
+&\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1} S \right] \right\}
+\end{align*}
+
+
+
+## Likelihood Function {background-color=#FF00FF}
+
+## Likelihood Function as predictive density
+
+### VAR model.
+
+\begin{align*} 
+Y &= X\mathbf{A} +E\\
+E|X &\sim MN_{T\times N}\left(\mathbf{0}_{T\times N},\mathbf\Sigma, I_T\right)
+\end{align*} 
+
+### Predictive density.
+\begin{align*} 
+Y|X,\mathbf{A}, \mathbf{\Sigma} &\sim MN_{T\times N}\left(X\mathbf{A},\mathbf{\Sigma},I_T\right)
+\end{align*} 
+
+
+
+
+
+## Likelihood function
+
+### Predictive density.
+
+\begin{align*} 
+Y|X,\mathbf{A}, \mathbf{\Sigma} &\sim MN_{T\times N}\left(X\mathbf{A},\mathbf{\Sigma},I_T\right)
+\end{align*} 
+
+### Likelihood function.
+\begin{align*}
+L\left(\mathbf{A},\mathbf{\Sigma}|Y,X\right)&\propto\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\exp\left\{-\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(Y-X\mathbf{A})'(Y-X\mathbf{A})\right]\right\}\\
+&=\text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\\
+&\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[\mathbf{\Sigma}^{-1}(\mathbf{A}-\widehat{A})'X'X(\mathbf{A}-\widehat{A}) \right] \right\}\\
+&\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(Y-X\widehat{A})'(Y-X\widehat{A}) \right] \right\}
+\end{align*} 
+where $\widehat{A}=(X'X)^{-1}X'Y$
+
+
+
+
+
+## Likelihood function as NIW.
+
+The likelihood function can be presented as a *normal-inverse Wishart* distribution for $(\mathbf{A},\mathbf{\Sigma})$
+
+\begin{align*}
+L\left( \mathbf{A},\mathbf{\Sigma}|Y,X \right) &= NIW_{K\times N}\left(\widehat{A},(X'X)^{-1},(Y-X\widehat{A})'(Y-X\widehat{A}), T-N-K-1 \right)
+\end{align*}
+
+
+
+
+## Prior distribution {background-color=#FF00FF}
+
+## Natural-conjugate prior distribution
+
+### Construction.
+
+Leads to joint posterior distribution for $(\mathbf{A},\mathbf{\Sigma})$ of the same form
+\begin{align*} 
+p\left( \mathbf{A}, \mathbf{\Sigma} \right) &= p\left( \mathbf{A}| \mathbf{\Sigma} \right)p\left( \mathbf{\Sigma} \right)\\
+\mathbf{A}|\mathbf{\Sigma} &\sim MN_{K\times N}\left( \underline{A},\mathbf{\Sigma},\underline{V} \right)\\
+\mathbf{\Sigma} &\sim IW_N\left( \underline{S}, \underline{\nu} \right)
+\end{align*} 
+
+### Kernel.
+\begin{align*} 
+p\left( \mathbf{A},\mathbf{\Sigma} \right) 
+&\propto \text{det}(\mathbf{\Sigma})^{-\frac{N+K+\underline{\nu}+1}{2}}\\
+&\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\underline{A})'\underline{V}^{-1}(\mathbf{A}-\underline{A}) \right] \right\}\\
+&\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}\underline{S} \right] \right\}
+\end{align*} 
+
+
+
+
+
+## Posterior distribution {background-color=#FF00FF}
+
+## Posterior distribution
+
+### Bayes Rule.
+
+\begin{align*} 
+p\left( \mathbf{A}, \mathbf{\Sigma}|Y,X \right) &\propto L(\mathbf{A},\mathbf{\Sigma}|Y,X)p\left( \mathbf{A}, \mathbf{\Sigma} \right)\\
+&= L(\mathbf{A},\mathbf{\Sigma}|Y,X)p\left( \mathbf{A}| \mathbf{\Sigma} \right)p\left( \mathbf{\Sigma} \right)
+\end{align*} 
+
+### Kernel.
+
+\begin{align*} 
+p\left( \mathbf{A},\mathbf{\Sigma} |Y,X\right) 
+&\propto  \text{det}(\mathbf{\Sigma})^{-\frac{T}{2}}\\
+&\quad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\widehat{A})'X'X(\mathbf{A}-\widehat{A}) \right] \right\}\\
+&\quad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(Y-X\widehat{A})'(Y-X\widehat{A}) \right] \right\}\\
+& \qquad\times\text{det}(\mathbf{\Sigma})^{-\frac{N+K+\underline{\nu}+1}{2}}\\
+&\qquad\times\exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}(\mathbf{A}-\underline{A})'\underline{V}^{-1}(\mathbf{A}-\underline{A}) \right] \right\}\\
+&\qquad\times \exp\left\{ -\frac{1}{2}\text{tr}\left[ \mathbf{\Sigma}^{-1}\underline{S} \right] \right\},
+\end{align*} 
+
+
+
+
+
+## Joint posterior distribution
+
+### Conditional and marginal.
+
+\begin{align*} 
+p\left( \mathbf{A}, \mathbf{\Sigma}|Y,X \right) &= p(\mathbf{A}|Y,X,\mathbf{\Sigma})p\left( \mathbf{\Sigma}|Y,X \right)\\[2ex]
+p(\mathbf{A}|Y,X,\mathbf{\Sigma}) &= MN_{K\times N}\left( \overline{A},\mathbf{\Sigma},\overline{V} \right)\\
+p(\mathbf{\Sigma}|Y,X) &= IW_N\left( \overline{S}, \overline{\nu} \right)
+\end{align*}
+
+### Posterior parameters.
+
+\begin{align*}
+\overline{V}&= \left( X'X + \underline{V}^{-1}\right)^{-1} \\
+\overline{A}&= \overline{V}\left( X'Y + \underline{V}^{-1}\underline{A} \right)\\
+\overline{\nu}&= T+\underline{\nu}\\
+\overline{S}&= \underline{S}+Y'Y + \underline{A}'\underline{V}^{-1}\underline{A} - \overline{A}'\overline{V}^{-1}\overline{A}
+\end{align*} 
+
+
+
