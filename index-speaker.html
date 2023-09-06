@@ -857,6 +857,101 @@ p\left( \mathbf{A}, \mathbf{\Sigma}|Y,X, Y^*,X^* \right) &amp;= MNIW_{K\times N}
 </section>
 <section id="bayesian-forecasting-using-vars-1" class="slide level2" data-background-color="#FF00FF">
 <h2>Bayesian Forecasting using VARs</h2>
+</section>
+<section id="the-objective-of-economic-forecasting" class="slide level2">
+<h2>The objective of economic forecasting</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+<p><span class="math inline">\(\left.\right.\)</span></p>
+<p>… is to use the available data to provide a statistical characterisation of the unknown future values of quantities of interest.</p>
+<p><span class="math inline">\(\left.\right.\)</span></p>
+<p>The full statistical characterisation of the unknown future values of random variables is given by their <em>predictive density</em>.</p>
+<p><span class="math inline">\(\left.\right.\)</span></p>
+<p>Simplified outcomes in a form of statistics summarising the predictive densities are usually used in decision-making processes.</p>
+<p><span class="math inline">\(\left.\right.\)</span></p>
+<p>Summary statistics are also communicated to general audiences.</p>
+</section>
+<section id="one-period-ahead-predictive-density" class="slide level2">
+<h2>One-Period Ahead Predictive Density</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+<h3 id="varp-model.-1">VAR(p) model.</h3>
+<p><span class="math display">\[\begin{align*}
+y_t &amp;= \mathbf{A}_1 y_{t-1} + \dots + \mathbf{A}_p y_{t-p} + \boldsymbol\mu_0 + \epsilon_t\\[2ex]
+\epsilon_t|Y_{t-1} &amp;\sim iidN_N\left(\mathbf{0}_N,\mathbf\Sigma\right)\\
+&amp;
+\end{align*}\]</span></p>
+<h3 id="one-period-ahead-conditional-predictive-density">One-Period Ahead Conditional Predictive Density</h3>
+<p>… is implied by the model formulation: <span class="math display">\[\begin{align*}
+y_{t+h}|Y_{t+h-1},\mathbf{A},\mathbf\Sigma &amp;\sim N_N\left(\mathbf{A}_1 y_{t+h-1} + \dots + \mathbf{A}_p y_{t+h-p} + \boldsymbol\mu_0,\mathbf\Sigma\right)
+\end{align*}\]</span></p>
+</section>
+<section id="one-period-ahead-predictive-density-1" class="slide level2">
+<h2>One-Period Ahead Predictive Density</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+<p><span class="math inline">\(\left.\right.\)</span></p>
+<p>Bayesian forecasting takes into account the uncertainty w.r.t. parameter estimation by integrating it out from the predictive density.</p>
+<p><span class="math display">\[\begin{align*}
+&amp;\\
+p(y_{T+1}|Y,X) &amp;= \int p(y_{T+1}|Y_{T},\mathbf{A},\mathbf\Sigma) p(\mathbf{A},\mathbf\Sigma|Y,X) d(\mathbf{A},\mathbf\Sigma)\\ &amp;
+\end{align*}\]</span></p>
+<ul>
+<li><span class="math inline">\(p(y_{T+1}|Y,X)\)</span> - predictive density</li>
+<li><span class="math inline">\(p(y_{T+1}|Y_{t},\mathbf{A},\mathbf\Sigma)\)</span> - one-period-ahead conditional predictive density</li>
+<li><span class="math inline">\(p(\mathbf{A},\mathbf\Sigma|Y,X)\)</span> - marginal posterior distribution</li>
+</ul>
+</section>
+<section id="sampling-from-one-period-ahead-predictive-density" class="slide level2">
+<h2>Sampling from One-Period Ahead Predictive Density</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+<p><span class="math inline">\(\left.\right.\)</span></p>
+<h4 id="step-1-sample-from-the-posterior">Step 1: Sample from the posterior</h4>
+<p>… and obtain <span class="math inline">\(S\)</span> draws <span class="math inline">\(\left\{ \mathbf{A}^{(s)},\mathbf\Sigma^{(s)} \right\}_{s=1}^{S}\)</span></p>
+<p><span class="math inline">\(\left.\right.\)</span></p>
+<h4 id="step-2-sample-from-the-predictive-density">Step 2: Sample from the predictive density</h4>
+<p>In order to obtain draws from <span class="math inline">\(p(y_{T+1}|Y,X)\)</span>, for each of the <span class="math inline">\(S\)</span> draws of <span class="math inline">\((\mathbf{A},\mathbf\Sigma)\)</span> sample the corresponding draw of <span class="math inline">\(y_{T+1}\)</span>:</p>
+<p>Sample <span class="math inline">\(y_{T+1}^{(s)}\)</span> from <span class="math display">\[
+N_N\left(\mathbf{A}_1^{(s)} y_{T} + \dots + \mathbf{A}_p^{(s)} y_{T-p+1} + \boldsymbol\mu_0^{(s)},\mathbf\Sigma^{(s)}\right)
+\]</span> and obtain <span class="math inline">\(\left\{y_{T+1}^{(s)}\right\}_{s=1}^{S}\)</span></p>
+</section>
+<section id="h-period-ahead-predictive-density" class="slide level2">
+<h2><span class="math inline">\(h\)</span>-Period Ahead Predictive Density</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+<p><span class="math inline">\(\left.\right.\)</span></p>
+<p>This procedure can be generalised to any forecasting horizon.</p>
+<p>This is an illustration for <span class="math inline">\(h=2\)</span>.</p>
+<p><span class="math display">\[\begin{align*}
+&amp;\\
+p(y_{T+2},y_{T+1}|Y,X)
+&amp;= \int p(y_{T+2},y_{T+1}|Y_{T},\mathbf{A},\mathbf\Sigma) p(\mathbf{A},\mathbf\Sigma|Y,X) d(\mathbf{A},\mathbf\Sigma)\\[1ex]
+&amp;= \int p(y_{T+2}|y_{T+1},Y_{T},\mathbf{A},\mathbf\Sigma)p(y_{T+1}|Y_{T},\mathbf{A},\mathbf\Sigma) p(\mathbf{A},\mathbf\Sigma|Y,X) d(\mathbf{A},\mathbf\Sigma)\\ &amp;
+\end{align*}\]</span></p>
+</section>
+<section id="h-period-ahead-predictive-density-1" class="slide level2">
+<h2><span class="math inline">\(h\)</span>-Period Ahead Predictive Density</h2>
+<div class="footer">
+<p><a href="https://bayesian-econometrics-2023.github.io/be23-lecture7/">Bayesian VARs</a></p>
+</div>
+<p><span class="math inline">\(\left.\right.\)</span></p>
+<h4 id="step-1-sample-from-the-posterior-1">Step 1: Sample from the posterior</h4>
+<p>… and obtain <span class="math inline">\(S\)</span> draws <span class="math inline">\(\left\{ \mathbf{A}^{(s)},\mathbf\Sigma^{(s)} \right\}_{s=1}^{S}\)</span></p>
+<h4 id="step-2-sample-from-1-period-ahead-predictive-density">Step 2: Sample from 1-period ahead predictive density</h4>
+<p>For each of the <span class="math inline">\(S\)</span> draws, sample <span class="math inline">\(y_{T+1}^{(s)}\)</span> from <span class="math display">\[
+N_N\left(\mathbf{A}_1^{(s)} y_{T} + \dots + \mathbf{A}_p^{(s)} y_{T-p+1} + \boldsymbol\mu_0^{(s)},\mathbf\Sigma^{(s)}\right)
+\]</span></p>
+<h4 id="step-3-sample-from-2-period-ahead-predictive-density">Step 3: Sample from 2-period ahead predictive density</h4>
+<p>For each of the <span class="math inline">\(S\)</span> draws, sample <span class="math inline">\(y_{T+2}^{(s)}\)</span> from <span class="math display">\[
+N_N\left(\mathbf{A}_1^{(s)} y_{T+1}^{(s)} + \mathbf{A}_2 y_{T}^{(s)} + \dots + \mathbf{A}_p^{(s)} y_{T-p+2} + \boldsymbol\mu_0^{(s)},\mathbf\Sigma^{(s)}\right)
+\]</span></p>
+<p>and obtain <span class="math inline">\(\left\{y_{T+2}^{(s)},y_{T+1}^{(s)}\right\}_{s=1}^{S}\)</span></p>
 <div class="footer footer-default">
 
 </div>
